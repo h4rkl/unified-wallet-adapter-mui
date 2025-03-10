@@ -7,27 +7,22 @@ import { useUnifiedWalletContext, useUnifiedWallet } from '../../contexts/Unifie
 import { MWA_NOT_FOUND_ERROR } from '../../contexts/UnifiedWalletContext';
 import { useTranslation } from '../../contexts/TranslationProvider';
 
-const getThemeStyles = (theme: string) => {
+const getThemeStyles = (theme: string, muiTheme: any) => {
   switch (theme) {
     case 'light':
       return {
-        bgcolor: 'white',
-        color: 'black',
+        bgcolor: muiTheme.palette.mode === 'light' ? muiTheme.palette.common.white : muiTheme.palette.common.white,
+        color: muiTheme.palette.mode === 'light' ? muiTheme.palette.common.black : muiTheme.palette.common.black,
       };
     case 'dark':
       return {
-        bgcolor: '#31333B',
-        color: 'white',
-      };
-    case 'jupiter':
-      return {
-        bgcolor: 'v3-bg',
-        color: 'white',
+        bgcolor: muiTheme.palette.mode === 'dark' ? '#31333B' : '#31333B',
+        color: muiTheme.palette.mode === 'dark' ? muiTheme.palette.common.white : muiTheme.palette.common.white,
       };
     default:
       return {
-        bgcolor: 'white',
-        color: 'black',
+        bgcolor: muiTheme.palette.mode === 'light' ? muiTheme.palette.common.white : muiTheme.palette.common.white,
+        color: muiTheme.palette.mode === 'light' ? muiTheme.palette.common.black : muiTheme.palette.common.black,
       };
   }
 };
@@ -37,7 +32,7 @@ export const UnifiedWalletButton: React.FC<{
   buttonClassName?: string;
   currentUserClassName?: string;
 }> = ({ overrideContent, buttonClassName, currentUserClassName }) => {
-  const { setShowModal, theme } = useUnifiedWalletContext();
+  const { setShowModal } = useUnifiedWalletContext();
   const { disconnect, connect, connecting, wallet } = useUnifiedWallet();
   const { t } = useTranslation();
   const muiTheme = useTheme();
@@ -86,7 +81,7 @@ export const UnifiedWalletButton: React.FC<{
           {overrideContent ? (
             <Box 
               sx={{
-                ...getThemeStyles(theme),
+                ...getThemeStyles(theme, muiTheme),
                 cursor: 'pointer',
               }}
               className={buttonClassName}
@@ -106,7 +101,7 @@ export const UnifiedWalletButton: React.FC<{
                 cursor: 'pointer',
                 textAlign: 'center',
                 width: 'auto',
-                ...getThemeStyles(theme),
+                ...getThemeStyles(theme, muiTheme),
               }}
               className={buttonClassName}
               onClick={handleClick}

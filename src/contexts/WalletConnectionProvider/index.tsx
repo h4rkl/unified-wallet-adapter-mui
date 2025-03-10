@@ -11,8 +11,8 @@ import { Cluster } from '@solana/web3.js';
 
 import { PreviouslyConnectedProvider } from './previouslyConnectedProvider';
 import HardcodedWalletStandardAdapter, { IHardcodedWalletStandardAdapter } from './HardcodedWalletStandardAdapter';
-import { IUnifiedTheme } from '../UnifiedWalletContext';
 import { AllLanguage } from '../TranslationProvider/i18n';
+import { Theme } from '@mui/material';
 
 const noop = (error: WalletError, adapter?: Adapter) => {
   console.log({ error, adapter });
@@ -48,7 +48,7 @@ export interface IUnifiedWalletConfig {
     href: string;
   };
   // Default to light
-  theme?: IUnifiedTheme;
+  theme?: Theme;
   lang?: AllLanguage;
   walletAttachments?: Record<string, { attachment: ReactNode }>;
   walletModalAttachments?: {

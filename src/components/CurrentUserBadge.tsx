@@ -1,40 +1,32 @@
 import React from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { shortenAddress } from '../misc/utils';
-import { IStandardStyle, useUnifiedWalletContext } from '../contexts/UnifiedWalletContext';
-import { Button, Box, Typography } from '@mui/material';
+import { Button, Box, Typography, useTheme } from '@mui/material';
 
 const styles = {
   container: {
     light: {
-      sx: {
-        bgcolor: 'white',
-        color: 'black',
-      },
+      sx: (theme: any) => ({
+        bgcolor: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.common.white,
+        color: theme.palette.mode === 'light' ? theme.palette.common.black : theme.palette.common.black,
+      }),
     },
     dark: {
-      sx: {
-        bgcolor: '#191B1F',
-        color: 'white',
-      },
-    },
-    jupiter: {
-      sx: {
-        bgcolor: 'v3-bg', // Assuming v3-bg is a custom theme variable
-        color: 'white',
-      },
+      sx: (theme: any) => ({
+        bgcolor: theme.palette.mode === 'dark' ? '#191B1F' : '#191B1F',
+        color: theme.palette.mode === 'dark' ? theme.palette.common.white : theme.palette.common.white,
+      }),
     },
   },
   text: {
     light: { color: 'black' },
     dark: { color: 'white' },
-    jupiter: { color: 'white' },
   },
 };
 
 export const CurrentUserBadge: React.FC<{ onClick?: () => void; className?: string }> = ({ onClick, className }) => {
   const { wallet, publicKey } = useWallet();
-  const { theme } = useUnifiedWalletContext();
+  const muiTheme = useTheme();
 
   if (!wallet || !publicKey) {
     return null;
@@ -46,12 +38,13 @@ export const CurrentUserBadge: React.FC<{ onClick?: () => void; className?: stri
       sx={{
         display: 'flex',
         alignItems: 'center',
-        py: 1, // padding y: 8px (equivalent to py-2)
-        px: 1.5, // padding x: 12px (equivalent to px-3)
-        borderRadius: '16px', // rounded-2xl
-        height: '28px', // h-7
-        cursor: 'pointer',
-        ...styles.container[theme].sx,
+        borderRadius: '16px',
+        py: 1.5,
+        px: 2.5,
+        fontSize: '0.75rem',
+        ...(typeof styles.container[theme].sx === 'function' 
+          ? styles.container[theme].sx(muiTheme) 
+          : styles.container[theme].sx),
       }}
       className={className}
     >

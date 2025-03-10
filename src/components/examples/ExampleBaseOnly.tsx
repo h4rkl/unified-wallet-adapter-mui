@@ -4,13 +4,12 @@ import WalletNotification from '../WalletNotification';
 import CodeBlocks from '../CodeBlocks/CodeBlocks';
 import { Cluster } from '@solana/web3.js';
 import { useMemo } from 'react';
-import { IUnifiedTheme } from '../../contexts/UnifiedWalletContext';
 import { AllLanguage } from '../../contexts/TranslationProvider/i18n';
-import { Box } from '@mui/material';
+import { Box, Theme } from '@mui/material';
 
 const HARDCODED_WALLET_CODEBLOCK = `wallets={[]}`;
 
-const ExampleBaseOnly: React.FC<{ theme: IUnifiedTheme; lang: AllLanguage }> = ({ theme, lang }) => {
+const ExampleBaseOnly: React.FC<{ theme: Theme; lang: AllLanguage }> = ({ theme, lang }) => {
   const params: Omit<Parameters<typeof UnifiedWalletProvider>[0], 'children'> = useMemo(
     () => ({
       wallets: [],

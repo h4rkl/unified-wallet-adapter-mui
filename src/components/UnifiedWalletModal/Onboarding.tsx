@@ -2,103 +2,10 @@ import React from 'react';
 import { useRef, useState } from 'react';
 import { HARDCODED_WALLET_STANDARDS } from '../../misc/constants';
 import ExternalIcon from '../icons/ExternalIcon';
-import { IStandardStyle, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
 import { useTranslation } from '../../contexts/TranslationProvider';
 
 // Material UI imports
 import { Box, Typography, Button, Stack, styled } from '@mui/material';
-
-const OnboardingButton = styled(Button, {
-  shouldForwardProp: (prop) => prop !== 'customtheme',
-})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
-  color: 'white',
-  fontWeight: 600,
-  fontSize: '1rem',
-  width: '100%',
-  borderRadius: theme.shape.borderRadius * 2,
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  padding: '20px',
-  lineHeight: 'none',
-  ...(customtheme === 'light' && {
-    backgroundColor: '#31333B',
-    '&:hover': {
-      backgroundColor: 'black',
-    },
-  }),
-  ...(customtheme === 'dark' && {
-    backgroundColor: '#31333B',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    },
-  }),
-  ...(customtheme === 'jupiter' && {
-    backgroundColor: 'black',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-  }),
-}));
-
-const WalletButton = styled(Button, {
-  shouldForwardProp: (prop) => prop !== 'customtheme',
-})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
-  padding: '16px 20px',
-  display: 'flex',
-  gap: '16px',
-  width: '100%',
-  borderRadius: theme.shape.borderRadius * 2,
-  fontSize: '0.875rem',
-  fontWeight: 600,
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  textAlign: 'left',
-  ...(customtheme === 'light' && {
-    backgroundColor: '#F9FAFB',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    },
-  }),
-  ...(customtheme === 'dark' && {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    },
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    boxShadow: theme.shadows[3],
-  }),
-  ...(customtheme === 'jupiter' && {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    '&:hover': {
-      backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    },
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    boxShadow: theme.shadows[3],
-  }),
-}));
-
-// Replace the existing styles definition
-const styles: IStandardStyle = {
-  subtitle: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-  button: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-  walletButton: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-  externalIcon: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-};
 
 export const OnboardingIntro: React.FC<{
   flow: IOnboardingFlow;
@@ -106,7 +13,6 @@ export const OnboardingIntro: React.FC<{
   onClose: () => void;
   showBack: boolean;
 }> = ({ flow, setFlow, onClose, showBack }) => {
-  const { theme } = useUnifiedWalletContext();
   const { t } = useTranslation();
 
   return (
@@ -121,7 +27,7 @@ export const OnboardingIntro: React.FC<{
           variant="body2" 
           sx={{ 
             mt: 3, 
-            color: theme === 'light' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.5)' 
+            color: (theme) => theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.5)' 
           }}
         >
           {t(`Welcome to DeFi! Create a crypto wallet to get started!`)}
@@ -129,12 +35,11 @@ export const OnboardingIntro: React.FC<{
       </Box>
 
       <Box sx={{ mt: 6, width: '100%' }}>
-        <OnboardingButton
-          customtheme={theme}
+        <Button
           onClick={() => setFlow('Get Wallet')}
         >
           {t(`Get Started`)}
-        </OnboardingButton>
+        </Button>
       </Box>
       
       {showBack && (
@@ -144,7 +49,7 @@ export const OnboardingIntro: React.FC<{
             mt: 3,
             fontSize: '0.75rem',
             fontWeight: '600',
-            color: theme === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
+            color: (theme) =>  theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
           }}
           onClick={() => onClose()}
         >
@@ -159,7 +64,6 @@ export const OnboardingGetWallets: React.FC<{ flow: IOnboardingFlow; setFlow: (f
   flow,
   setFlow,
 }) => {
-  const { theme } = useUnifiedWalletContext();
   const { t } = useTranslation();
 
   return (
@@ -170,23 +74,21 @@ export const OnboardingGetWallets: React.FC<{ flow: IOnboardingFlow; setFlow: (f
       
       <Stack spacing={2} sx={{ mt: 4, width: '100%' }}>
         {HARDCODED_WALLET_STANDARDS.map((item, idx) => (
-          <WalletButton
+          <Button
             key={idx}
             component="a"
             href={item.url}
             target="_blank"
-            customtheme={theme}
           >
             <img src={item.icon} width={20} height={20} alt={item.name} />
             <span>{item.name}</span>
-          </WalletButton>
+          </Button>
         ))}
 
-        <WalletButton
+        <Button
           component="a"
           href={'https://station.jup.ag/partners?category=Wallets'}
           target="_blank"
-          customtheme={theme}
         >
           <Box sx={{ 
             width: 20, 
@@ -194,12 +96,12 @@ export const OnboardingGetWallets: React.FC<{ flow: IOnboardingFlow; setFlow: (f
             display: 'flex', 
             alignItems: 'center', 
             padding: '2px',
-            color: theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.3)'
+            color: (theme) => theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.3)'
           }}>
             <ExternalIcon width={16} height={16} />
           </Box>
           <span>{t(`More wallets`)}</span>
-        </WalletButton>
+        </Button>
       </Stack>
 
       <Typography
@@ -207,7 +109,7 @@ export const OnboardingGetWallets: React.FC<{ flow: IOnboardingFlow; setFlow: (f
         align="center"
         sx={{
           mt: 3,
-          color: theme === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
+          color: (theme) => theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
         }}
       >
         {t(`Once installed, refresh this page`)}
@@ -219,7 +121,7 @@ export const OnboardingGetWallets: React.FC<{ flow: IOnboardingFlow; setFlow: (f
           mt: 3,
           fontSize: '0.75rem',
           fontWeight: '600',
-          color: theme === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
+          color: (theme) => theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
         }}
         onClick={() => setFlow('Onboarding')}
       >

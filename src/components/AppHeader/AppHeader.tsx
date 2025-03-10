@@ -27,7 +27,9 @@ const AppHeader: React.FC<{}> = () => {
         alignItems: 'center', 
         justifyContent: 'space-between', 
         width: '100%', 
-        bgcolor: 'rgba(0, 0, 0, 0.35)'
+        bgcolor: (theme) => theme.palette.mode === 'dark' 
+          ? 'rgba(0, 0, 0, 0.35)' 
+          : 'rgba(0, 0, 0, 0.35)'
       }}>
         <Box sx={{ 
           display: 'flex', 
@@ -76,7 +78,9 @@ const AppHeader: React.FC<{}> = () => {
             top: '60px',
             left: 0,
             width: '100%',
-            bgcolor: 'rgba(62,62,69,0.85)',
+            bgcolor: (theme) => theme.palette.mode === 'dark' 
+              ? 'rgba(62,62,69,0.85)' 
+              : 'rgba(62,62,69,0.85)',
             backdropFilter: 'blur(20px)'
           }}
           onClick={handleToggleMenu}

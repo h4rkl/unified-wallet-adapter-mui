@@ -14,7 +14,6 @@ const Index = () => {
   return (
     <Box
       sx={{
-        bgcolor: 'v3.bg',
         minHeight: '100vh',
         width: '100%',
         display: 'flex',
@@ -91,7 +90,7 @@ const Index = () => {
                       justifyContent: 'center',
                     }}
                   >
-                    {(['light', 'dark', 'jupiter'] as IUnifiedTheme[]).map((t) => (
+                    {/* {(['light', 'dark', 'jupiter'] as IUnifiedTheme[]).map((t) => (
                       <Button
                         key={t}
                         variant={theme === t ? 'contained' : 'outlined'}
@@ -103,7 +102,7 @@ const Index = () => {
                       >
                         {t}
                       </Button>
-                    ))}
+                    ))} */}
                   </Box>
                 </Paper>
               </Grid>

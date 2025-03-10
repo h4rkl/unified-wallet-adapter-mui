@@ -1,63 +1,16 @@
 import { Adapter } from '@solana/wallet-adapter-base';
 import React from 'react';
 import { useTranslation } from '../../contexts/TranslationProvider';
-import { IStandardStyle, IUnifiedTheme, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
 import ExternalIcon from '../icons/ExternalIcon';
 
 // Material UI imports
-import { Box, Typography, Button, Stack, Divider, styled } from '@mui/material';
-
-// Replace the existing styles definition
-const ActionButton = styled(Button, {
-  shouldForwardProp: (prop) => prop !== 'customtheme',
-})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
-  color: 'white',
-  fontWeight: 600,
-  width: '100%',
-  borderRadius: theme.shape.borderRadius * 2,
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  padding: '16px 8px',
-  fontSize: '0.75rem',
-  lineHeight: 'none',
-  ...(customtheme === 'light' && {
-    backgroundColor: '#31333B',
-    '&:hover': {
-      backgroundColor: 'black',
-    },
-  }),
-  ...(customtheme === 'dark' && {
-    backgroundColor: '#31333B',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    },
-  }),
-  ...(customtheme === 'jupiter' && {
-    backgroundColor: 'black',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-  }),
-}));
-
-const styles: IStandardStyle = {
-  subtitle: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-  button: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-};
+import { Box, Typography, Button, Stack, Divider } from '@mui/material';
 
 const NotInstalled: React.FC<{ adapter: Adapter; onClose: () => void; onGoOnboarding: () => void }> = ({
   adapter,
   onClose,
   onGoOnboarding,
 }) => {
-  const { theme } = useUnifiedWalletContext();
   const { t } = useTranslation();
 
   return (
@@ -121,13 +74,13 @@ const NotInstalled: React.FC<{ adapter: Adapter; onClose: () => void; onGoOnboar
         <Divider sx={{ mt: 5, width: '100%', borderColor: 'rgba(255, 255, 255, 0.1)' }} />
 
         <Stack direction="row" spacing={2} sx={{ justifyContent: 'space-between', width: '100%', p: 5 }}>
-          <ActionButton customtheme={theme} onClick={onGoOnboarding}>
+          <Button onClick={onGoOnboarding}>
             {t(`I don't have a wallet`)}
-          </ActionButton>
+          </Button>
 
-          <ActionButton customtheme={theme} onClick={onClose}>
+          <Button onClick={onClose}>
             {'← ' + t(`Go back`)}
-          </ActionButton>
+          </Button>
         </Stack>
       </Box>
     </Box>

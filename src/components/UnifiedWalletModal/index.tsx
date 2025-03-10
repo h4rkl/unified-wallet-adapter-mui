@@ -2,13 +2,13 @@ import { Adapter, WalletName, WalletReadyState } from '@solana/wallet-adapter-ba
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { useToggle } from 'react-use';
 
-import { WalletIcon, WalletListItem } from './WalletListItem';
+import { WalletListItem } from './WalletListItem';
 
 import Collapse from '../Collapse';
 
 import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
 import { useTranslation } from '../../contexts/TranslationProvider';
-import { IStandardStyle, useUnifiedWallet, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
+import { useUnifiedWallet, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
 import { usePreviouslyConnected } from '../../contexts/WalletConnectionProvider/previouslyConnectedProvider';
 import ChevronDownIcon from '../icons/ChevronDownIcon';
 import ChevronUpIcon from '../icons/ChevronUpIcon';
@@ -17,126 +17,13 @@ import { isMobile, useOutsideClick } from '../../misc/utils';
 import { OnboardingFlow } from './Onboarding';
 
 // Material UI imports
-import {
-  Box,
-  Typography,
-  Button,
-  IconButton,
-  Divider,
-  Paper,
-  Grid,
-  styled,
-  useTheme,
-} from '@mui/material';
+import { Box, Typography, Button, IconButton, Divider, Paper, Grid, styled, useTheme } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-
-// Styled components with MUI
-const ModalContainer = styled(Paper, {
-  shouldForwardProp: (prop) => prop !== 'theme',
-})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
-  maxWidth: '500px',
-  width: '100%',
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  borderRadius: theme.shape.borderRadius * 2,
-  maxHeight: '90vh',
-  [theme.breakpoints.up('lg')]: {
-    maxHeight: '576px',
-  },
-  transition: 'height 500ms ease-in-out',
-  ...(customtheme === 'light' && {
-    backgroundColor: '#ffffff',
-    color: '#000000',
-    boxShadow: theme.shadows[10],
-  }),
-  ...(customtheme === 'dark' && {
-    backgroundColor: '#3A3B43',
-    color: '#ffffff',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-  }),
-  ...(customtheme === 'jupiter' && {
-    backgroundColor: 'rgb(49, 62, 76)',
-    color: '#ffffff',
-  }),
-}));
-
-const BottomShade = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'theme',
-})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
-  display: 'block',
-  width: '100%',
-  height: '80px',
-  position: 'absolute',
-  left: 0,
-  bottom: '28px',
-  zIndex: 50,
-  pointerEvents: 'none',
-  ...(customtheme === 'light' && {
-    background: 'linear-gradient(to top, #ffffff, transparent)',
-  }),
-  ...(customtheme === 'dark' && {
-    background: 'linear-gradient(to top, #3A3B43, transparent)',
-  }),
-  ...(customtheme === 'jupiter' && {
-    background: 'linear-gradient(to top, rgb(49, 62, 76), transparent)',
-  }),
-}));
-
-const ListContainer = styled(Box)({
-  height: '100%',
-  overflowY: 'auto',
-  paddingTop: '12px',
-  paddingBottom: '32px',
-  position: 'relative',
-  '&.hideScrollbar': {
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
-    msOverflowStyle: 'none',
-    scrollbarWidth: 'none',
-  },
-});
-
-const styles: IStandardStyle = {
-  container: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-  shades: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-  walletItem: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-  subtitle: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-  header: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-  text: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-};
+import NotInstalled from './NotInstalled';
 
 const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { theme } = useUnifiedWalletContext();
   const { t } = useTranslation();
-  const muiTheme = useTheme();
 
   return (
     <Box
@@ -146,7 +33,7 @@ const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         display: 'flex',
         justifyContent: 'space-between',
         lineHeight: 'none',
-        borderBottom: theme === 'light' ? 1 : 0,
+        borderBottom: (theme) => theme.palette.mode === 'light' ? 1 : 0,
         borderColor: 'divider',
       }}
     >
@@ -158,18 +45,14 @@ const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           variant="caption"
           sx={{
             mt: 1,
-            color: theme === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+            color: (theme) => theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
           }}
         >
           {t(`You need to connect a Solana wallet.`)}
         </Typography>
       </Box>
 
-      <IconButton
-        size="small"
-        onClick={onClose}
-        sx={{ position: 'absolute', top: 16, right: 16 }}
-      >
+      <IconButton size="small" onClick={onClose} sx={{ position: 'absolute', top: 16, right: 16 }}>
         <CloseIcon sx={{ width: 12, height: 12 }} />
       </IconButton>
     </Box>
@@ -185,7 +68,7 @@ const ListOfWallets: React.FC<{
   onToggle: (nextValue?: any) => void;
   isOpen: boolean;
 }> = ({ list, onToggle, isOpen }) => {
-  const { handleConnectClick, walletlistExplanation, walletAttachments, theme } = useUnifiedWalletContext();
+  const { handleConnectClick, walletlistExplanation } = useUnifiedWalletContext();
   const { t } = useTranslation();
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showNotInstalled, setShowNotInstalled] = useState<Adapter | false>(false);
@@ -210,12 +93,12 @@ const ListOfWallets: React.FC<{
         </Grid>
 
         {list.highlightedBy !== 'Onboarding' && walletlistExplanation ? (
-          <Typography 
-            variant="caption" 
-            fontWeight="600" 
-            sx={{ 
+          <Typography
+            variant="caption"
+            fontWeight="600"
+            sx={{
               textDecoration: 'underline',
-              mb: list.others.length > 6 ? 8 : 0
+              mb: list.others.length > 6 ? 8 : 0,
             }}
           >
             <a href={walletlistExplanation.href} target="_blank" rel="noopener noreferrer">
@@ -257,7 +140,7 @@ const ListOfWallets: React.FC<{
 
   return (
     <>
-      <ListContainer className="hideScrollbar" sx={{ pt: 3, pb: 8, px: 5, position: 'relative', mb: isOpen ? 7 : 0 }}>
+      <Box className="hideScrollbar" sx={{ pt: 3, pb: 8, px: 5, position: 'relative', mb: isOpen ? 7 : 0 }}>
         <Typography variant="caption" fontWeight="600" sx={{ mt: 6 }}>
           {list.highlightedBy === 'PreviouslyConnected' ? t(`Recently used`) : null}
           {list.highlightedBy === 'TopAndRecommended' ? t(`Recommended wallets`) : null}
@@ -277,13 +160,13 @@ const ListOfWallets: React.FC<{
           <>
             <Button
               variant="text"
-              sx={{ 
-                mt: 5, 
-                display: 'flex', 
-                width: '100%', 
+              sx={{
+                mt: 5,
+                display: 'flex',
+                width: '100%',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                color: theme === 'light' ? 'black' : 'white'
+                color: (theme) => theme.palette.mode === 'light' ? 'black' : 'white',
               }}
               onClick={onToggle}
             >
@@ -296,12 +179,7 @@ const ListOfWallets: React.FC<{
             {isOpen && renderWalletList}
           </>
         ) : null}
-      </ListContainer>
-
-      {/* Bottom Shades */}
-      {isOpen && list.others.length > 6 ? (
-        <BottomShade customtheme={theme} />
-      ) : null}
+      </Box>
     </>
   );
 };
@@ -357,7 +235,7 @@ const sortByPrecedence = (walletPrecedence: WalletName[]) => (a: Adapter, b: Ada
 
 const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
   const { wallets } = useUnifiedWallet();
-  const { walletPrecedence, theme, walletModalAttachments } = useUnifiedWalletContext();
+  const { walletPrecedence, walletModalAttachments } = useUnifiedWalletContext();
   const [isOpen, onToggle] = useToggle(false);
   const previouslyConnected = usePreviouslyConnected();
 
@@ -457,14 +335,15 @@ const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   useOutsideClick(contentRef, onClose);
 
+  // TODO: remove sx styling
   return (
-    <ModalContainer ref={contentRef} customtheme={theme}>
+    <Box ref={contentRef}>
       <Header onClose={onClose} />
       <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.1)' }} />
       <ListOfWallets list={list} onToggle={onToggle} isOpen={isOpen} />
 
       {walletModalAttachments?.footer ? <>{walletModalAttachments?.footer}</> : null}
-    </ModalContainer>
+    </Box>
   );
 };
 

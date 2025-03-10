@@ -7,7 +7,7 @@ type Props = {
   dotClassName?: string;
 };
 
-const Toggle = ({ active, onClick, className, dotClassName }: Props) => {
+const Toggle = ({ active, onClick }: Props) => {
   return (
     <Button
       type="button"
@@ -19,9 +19,8 @@ const Toggle = ({ active, onClick, className, dotClassName }: Props) => {
         borderRadius: '9999px',
         p: '1px',
         cursor: 'pointer',
-        bgcolor: active ? 'jupiter.jungleGreen' : '#010101',
+        bgcolor: (theme) => theme.palette.mode === 'light' ? '#010101' : '#010101',
       }}
-      className={className}
       onClick={() => onClick(!active)}
     >
       <Box
@@ -29,12 +28,13 @@ const Toggle = ({ active, onClick, className, dotClassName }: Props) => {
           width: '18px',
           height: '18px',
           borderRadius: '50%',
-          boxShadow: 'md',
+          boxShadow: (theme) => theme.shadows[1],
           transform: active ? 'translateX(100%)' : 'none',
-          transition: 'transform 300ms ease-in-out',
-          bgcolor: 'white',
+          transition: (theme) => theme.transitions.create('transform', {
+            duration: theme.transitions.duration.standard,
+          }),
+          bgcolor: (theme) => theme.palette.common.white,
         }}
-        className={dotClassName}
       />
     </Button>
   );

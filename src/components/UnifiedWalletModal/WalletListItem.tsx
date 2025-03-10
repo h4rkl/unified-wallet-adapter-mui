@@ -4,59 +4,16 @@ import React, { DetailedHTMLProps, FC, ImgHTMLAttributes, MouseEventHandler, use
 import UnknownIconSVG from '../icons/UnknownIconSVG';
 import { isMobile } from '../../misc/utils';
 import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
-import { IStandardStyle, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
 import { useTranslation } from '../../contexts/TranslationProvider';
 
 // Material UI imports
-import { Box, Button, Typography, styled } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
   wallet: Adapter | null;
   width?: number;
   height?: number;
 }
-
-const WalletButton = styled(Button, {
-  shouldForwardProp: (prop) => prop !== 'customtheme',
-})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-  padding: '16px 20px',
-  gap: '20px',
-  transition: 'all 0.2s',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: theme.shape.borderRadius * 2,
-  cursor: 'pointer',
-  justifyContent: 'flex-start',
-  ...(customtheme === 'light' && {
-    backgroundColor: '#F9FAFB',
-    '&:hover': {
-      boxShadow: theme.shadows[3],
-      borderColor: 'rgba(0, 0, 0, 0.1)',
-    },
-  }),
-  ...(customtheme === 'dark' && {
-    '&:hover': {
-      boxShadow: theme.shadows[8],
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    },
-  }),
-  ...(customtheme === 'jupiter' && {
-    '&:hover': {
-      boxShadow: theme.shadows[8],
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    },
-  }),
-}));
-
-const styles: IStandardStyle = {
-  container: {
-    light: [],
-    dark: [],
-    jupiter: [],
-  },
-};
 
 export const WalletIcon: FC<WalletIconProps> = ({ wallet, width = 24, height = 24 }) => {
   const [hasError, setHasError] = React.useState(false);
@@ -91,7 +48,6 @@ export interface WalletListItemProps {
 }
 
 export const WalletListItem = ({ handleClick, wallet }: WalletListItemProps) => {
-  const { theme } = useUnifiedWalletContext();
   const { t } = useTranslation();
 
   const adapterName = useMemo(() => {
@@ -102,11 +58,7 @@ export const WalletListItem = ({ handleClick, wallet }: WalletListItemProps) => 
 
   return (
     <li>
-      <WalletButton
-        onClick={handleClick}
-        customtheme={theme}
-        variant="text"
-      >
+      <Button onClick={handleClick} variant="text">
         {isMobile() ? (
           <WalletIcon wallet={wallet} width={24} height={24} />
         ) : (
@@ -123,7 +75,7 @@ export const WalletListItem = ({ handleClick, wallet }: WalletListItemProps) => 
         >
           {adapterName}
         </Typography>
-      </WalletButton>
+      </Button>
     </li>
   );
 };

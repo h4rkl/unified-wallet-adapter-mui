@@ -7,7 +7,7 @@ const createAppTheme = (mode: PaletteMode): Theme => {
     palette: {
       mode,
       primary: {
-        main: '#00A661', // Jupiter jungle-green
+        main: '#00A661',
         contrastText: '#fff'
       },
       secondary: {
@@ -21,13 +21,6 @@ const createAppTheme = (mode: PaletteMode): Theme => {
       text: {
         primary: mode === 'dark' ? '#fff' : '#000',
         secondary: mode === 'dark' ? '#9D9DA6' : '#666'
-      },
-      v3: {
-        bg: 'rgb(49, 62, 76)',
-        primary: '#1A1B1F',
-      },
-      jupiter: {
-        jungleGreen: '#00A661',
       }
     },
     typography: {
@@ -110,25 +103,3 @@ const createAppTheme = (mode: PaletteMode): Theme => {
 const theme = createAppTheme('dark');
 
 export default theme;
-
-// For type augmentation to allow custom theme properties
-declare module '@mui/material/styles' {
-  interface Palette {
-    v3: {
-      bg: string;
-      primary: string;
-    };
-    jupiter: {
-      jungleGreen: string;
-    };
-  }
-  interface PaletteOptions {
-    v3?: {
-      bg: string;
-      primary: string;
-    };
-    jupiter?: {
-      jungleGreen: string;
-    };
-  }
-}

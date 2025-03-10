@@ -24,12 +24,10 @@ const HeaderLink = ({
         display: 'flex',
         alignItems: 'center',
         fontWeight: 600,
-        color: isActive ? 'v3-primary' : 'rgba(255, 255, 255, 0.5)',
         '&:hover': { color: 'white' },
         fill: 'currentColor',
         height: '60px',
         px: 4,
-        ...(isActive && { bgcolor: 'v3-bg' })
       }}
       {...(external
         ? {
