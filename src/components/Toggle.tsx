@@ -1,4 +1,4 @@
-import tw from "twin.macro";
+import { Box, Button } from "@mui/material";
 
 type Props = {
   active: boolean;
@@ -8,26 +8,35 @@ type Props = {
 };
 
 const Toggle = ({ active, onClick, className, dotClassName }: Props) => {
-  const activeClass = tw`bg-white transform translate-x-full`;
-  const inactiveClass = tw`bg-white`;
   return (
-    <button
+    <Button
       type="button"
-      css={[
-        tw`w-10 h-[22px] flex items-center rounded-full p-[1px] cursor-pointer`,
-        className,
-        active ? tw`bg-jupiter-jungle-green`: tw`bg-[#010101]`
-      ]}
+      sx={{
+        width: '2.5rem',
+        height: '22px',
+        display: 'flex',
+        alignItems: 'center',
+        borderRadius: '9999px',
+        p: '1px',
+        cursor: 'pointer',
+        bgcolor: active ? 'jupiter.jungleGreen' : '#010101',
+      }}
+      className={className}
       onClick={() => onClick(!active)}
     >
-      <div
-        css={[
-          tw`w-[18px] h-[18px] rounded-full shadow-md transform duration-300 ease-in-out`,
-          active ? activeClass : inactiveClass,
-          dotClassName
-        ]}
-      ></div>
-    </button>
+      <Box
+        sx={{
+          width: '18px',
+          height: '18px',
+          borderRadius: '50%',
+          boxShadow: 'md',
+          transform: active ? 'translateX(100%)' : 'none',
+          transition: 'transform 300ms ease-in-out',
+          bgcolor: 'white',
+        }}
+        className={dotClassName}
+      />
+    </Button>
   );
 };
 

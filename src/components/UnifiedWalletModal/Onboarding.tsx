@@ -1,31 +1,102 @@
 import React from 'react';
 import { useRef, useState } from 'react';
 import { HARDCODED_WALLET_STANDARDS } from '../../misc/constants';
-import tw from 'twin.macro';
 import ExternalIcon from '../icons/ExternalIcon';
 import { IStandardStyle, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
 import { useTranslation } from '../../contexts/TranslationProvider';
 
+// Material UI imports
+import { Box, Typography, Button, Stack, styled } from '@mui/material';
+
+const OnboardingButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== 'customtheme',
+})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
+  color: 'white',
+  fontWeight: 600,
+  fontSize: '1rem',
+  width: '100%',
+  borderRadius: theme.shape.borderRadius * 2,
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  padding: '20px',
+  lineHeight: 'none',
+  ...(customtheme === 'light' && {
+    backgroundColor: '#31333B',
+    '&:hover': {
+      backgroundColor: 'black',
+    },
+  }),
+  ...(customtheme === 'dark' && {
+    backgroundColor: '#31333B',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    },
+  }),
+  ...(customtheme === 'jupiter' && {
+    backgroundColor: 'black',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+  }),
+}));
+
+const WalletButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== 'customtheme',
+})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
+  padding: '16px 20px',
+  display: 'flex',
+  gap: '16px',
+  width: '100%',
+  borderRadius: theme.shape.borderRadius * 2,
+  fontSize: '0.875rem',
+  fontWeight: 600,
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  textAlign: 'left',
+  ...(customtheme === 'light' && {
+    backgroundColor: '#F9FAFB',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    },
+  }),
+  ...(customtheme === 'dark' && {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    },
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    boxShadow: theme.shadows[3],
+  }),
+  ...(customtheme === 'jupiter' && {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    },
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    boxShadow: theme.shadows[3],
+  }),
+}));
+
+// Replace the existing styles definition
 const styles: IStandardStyle = {
   subtitle: {
-    light: [tw`text-black/70`],
-    dark: [tw`text-white/50`],
-    jupiter: [tw`text-white/50`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
   button: {
-    light: [tw`bg-[#31333B] text-white hover:bg-black`],
-    dark: [tw`bg-[#31333B] hover:bg-black/30`],
-    jupiter: [tw`bg-black hover:bg-black/50`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
   walletButton: {
-    light: [tw`bg-[#F9FAFB] hover:bg-black/5`],
-    dark: [tw`bg-white/10 hover:bg-white/20 border border-white/10 shadow-lg`],
-    jupiter: [tw`bg-white/5 hover:bg-white/20 border border-white/10 shadow-lg`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
   externalIcon: {
-    light: [tw`text-black/30`],
-    dark: [tw`text-white/30`],
-    jupiter: [tw`text-white/30`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
 };
 
@@ -39,38 +110,48 @@ export const OnboardingIntro: React.FC<{
   const { t } = useTranslation();
 
   return (
-    <div tw="flex flex-col justify-center items-center p-10">
-      <img src={'https://unified.jup.ag/new_user_onboarding.png'} width={160} height={160} />
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 10 }}>
+      <img src={'https://unified.jup.ag/new_user_onboarding.png'} width={160} height={160} alt="Onboarding" />
 
-      <div tw="mt-4 flex flex-col justify-center items-center text-center">
-        <span tw="text-lg font-semibold">{t(`New here?`)}</span>
-        <span tw="mt-3 text-sm " css={[styles.subtitle[theme]]}>
+      <Box sx={{ mt: 4, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+        <Typography variant="h6" fontWeight="600">
+          {t(`New here?`)}
+        </Typography>
+        <Typography 
+          variant="body2" 
+          sx={{ 
+            mt: 3, 
+            color: theme === 'light' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.5)' 
+          }}
+        >
           {t(`Welcome to DeFi! Create a crypto wallet to get started!`)}
-        </span>
-      </div>
+        </Typography>
+      </Box>
 
-      <div tw="mt-6 w-full">
-        <button
-          type="button"
-          css={[
-            tw`text-white font-semibold text-base w-full rounded-lg border border-white/10 py-5 leading-none`,
-            styles.button[theme],
-          ]}
+      <Box sx={{ mt: 6, width: '100%' }}>
+        <OnboardingButton
+          customtheme={theme}
           onClick={() => setFlow('Get Wallet')}
         >
           {t(`Get Started`)}
-        </button>
-      </div>
+        </OnboardingButton>
+      </Box>
+      
       {showBack && (
-        <button
-          type="button"
-          css={[tw`mt-3 text-xs text-white/50 font-semibold`, styles.subtitle[theme]]}
+        <Button
+          variant="text"
+          sx={{ 
+            mt: 3,
+            fontSize: '0.75rem',
+            fontWeight: '600',
+            color: theme === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
+          }}
           onClick={() => onClose()}
         >
           {'← ' + t(`Go back`)}
-        </button>
+        </Button>
       )}
-    </div>
+    </Box>
   );
 };
 
@@ -82,50 +163,69 @@ export const OnboardingGetWallets: React.FC<{ flow: IOnboardingFlow; setFlow: (f
   const { t } = useTranslation();
 
   return (
-    <div tw="flex flex-col justify-center py-3 px-10">
-      <span tw="text-base font-semibold">{t(`Popular wallets to get started`)}</span>
-      <div tw="mt-4 w-full space-y-2">
-        {HARDCODED_WALLET_STANDARDS.map((item, idx) => {
-          return (
-            <a
-              href={item.url}
-              key={idx}
-              target="_blank"
-              css={[
-                tw`px-5 py-4 flex space-x-4 w-full rounded-lg text-sm font-semibold items-center`,
-                styles.walletButton[theme],
-              ]}
-            >
-              <img src={item.icon} width={20} height={20} alt={item.name} />
-              <span>{item.name}</span>
-            </a>
-          );
-        })}
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', py: 3, px: 10 }}>
+      <Typography variant="body1" fontWeight="600">
+        {t(`Popular wallets to get started`)}
+      </Typography>
+      
+      <Stack spacing={2} sx={{ mt: 4, width: '100%' }}>
+        {HARDCODED_WALLET_STANDARDS.map((item, idx) => (
+          <WalletButton
+            key={idx}
+            component="a"
+            href={item.url}
+            target="_blank"
+            customtheme={theme}
+          >
+            <img src={item.icon} width={20} height={20} alt={item.name} />
+            <span>{item.name}</span>
+          </WalletButton>
+        ))}
 
-        <a
+        <WalletButton
+          component="a"
           href={'https://station.jup.ag/partners?category=Wallets'}
           target="_blank"
-          css={[
-            tw`px-5 py-4 flex space-x-4 w-full rounded-lg text-sm font-semibold items-center`,
-            styles.walletButton[theme],
-          ]}
+          customtheme={theme}
         >
-          <div css={[tw`fill-current w-5 h-5 flex items-center p-0.5`, styles.externalIcon[theme]]}>
+          <Box sx={{ 
+            width: 20, 
+            height: 20, 
+            display: 'flex', 
+            alignItems: 'center', 
+            padding: '2px',
+            color: theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.3)'
+          }}>
             <ExternalIcon width={16} height={16} />
-          </div>
+          </Box>
           <span>{t(`More wallets`)}</span>
-        </a>
-      </div>
+        </WalletButton>
+      </Stack>
 
-      <span css={[tw`mt-3 text-center text-xs`, styles.subtitle[theme]]}>{t(`Once installed, refresh this page`)}</span>
-      <button
-        type="button"
-        css={[tw`mt-3 text-xs text-white/50 font-semibold`, styles.subtitle[theme]]}
+      <Typography
+        variant="caption"
+        align="center"
+        sx={{
+          mt: 3,
+          color: theme === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
+        }}
+      >
+        {t(`Once installed, refresh this page`)}
+      </Typography>
+      
+      <Button
+        variant="text"
+        sx={{ 
+          mt: 3,
+          fontSize: '0.75rem',
+          fontWeight: '600',
+          color: theme === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
+        }}
         onClick={() => setFlow('Onboarding')}
       >
         {'← ' + t(`Go back`)}
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 };
 
@@ -146,15 +246,27 @@ export const OnboardingFlow = ({ onClose, showBack }: { onClose: () => void; sho
   };
 
   return (
-    <div
+    <Box
       ref={contentRef}
-      css={[tw`duration-500 animate-fade-in overflow-y-scroll`, animateOut ? tw`animate-fade-out opacity-0` : '']}
+      sx={{
+        animation: animateOut ? 'fadeOut 0.2s' : 'fadeIn 0.5s',
+        opacity: animateOut ? 0 : 1,
+        overflowY: 'scroll',
+        '@keyframes fadeIn': {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 }
+        },
+        '@keyframes fadeOut': {
+          '0%': { opacity: 1 },
+          '100%': { opacity: 0 }
+        }
+      }}
       className="hideScrollbar"
     >
       {flow === 'Onboarding' ? (
         <OnboardingIntro showBack={showBack} flow={flow} setFlow={setFlowAnimated} onClose={onClose} />
       ) : null}
       {flow === 'Get Wallet' ? <OnboardingGetWallets flow={flow} setFlow={setFlowAnimated} /> : null}
-    </div>
+    </Box>
   );
 };

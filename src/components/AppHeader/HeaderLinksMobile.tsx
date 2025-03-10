@@ -1,9 +1,9 @@
 import React from 'react';
-import 'twin.macro'
+import { Box, Link, Typography } from '@mui/material';
 
-import DiscordIcon from '../../icons/DiscordIcon';
-import RepoLogo from '../../icons/RepoLogo';
-import SwapIcon from '../../icons/SwapIcon';
+import DiscordIcon from '../icons/DiscordIcon';
+import RepoLogo from '../icons/RepoLogo';
+import SwapIcon from '../icons/SwapIcon';
 
 const HeaderLink: React.FC<{
   external?: boolean;
@@ -12,9 +12,16 @@ const HeaderLink: React.FC<{
   label: string | React.ReactNode;
 }> = ({ external, href, icon, label }) => {
   return (
-    <a
+    <Link
       href={href}
-      tw="bg-white/10 flex items-center px-5 py-4 rounded-xl"
+      sx={{
+        bgcolor: 'rgba(255, 255, 255, 0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        px: 5,
+        py: 4,
+        borderRadius: '0.75rem',
+      }}
       {...(external
         ? {
             target: '_blank',
@@ -22,17 +29,33 @@ const HeaderLink: React.FC<{
           }
         : {})}
     >
-      <span tw="flex items-center justify-center h-9 w-9 rounded-full text-white/50 fill-current bg-black/25">
+      <Box sx={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        height: '2.25rem', 
+        width: '2.25rem', 
+        borderRadius: '50%', 
+        color: 'rgba(255, 255, 255, 0.5)', 
+        fill: 'currentColor', 
+        bgcolor: 'rgba(0, 0, 0, 0.25)' 
+      }}>
         {icon}
-      </span>
-      <p tw="ml-5 font-medium">{label}</p>
-    </a>
+      </Box>
+      <Typography sx={{ ml: 5, fontWeight: 500 }}>{label}</Typography>
+    </Link>
   );
 };
 
 const HeaderLinksMobile: React.FC = () => {
   return (
-    <div tw="px-5 py-4 text-base text-white space-y-2">
+    <Box sx={{ 
+      px: 5, 
+      py: 4, 
+      fontSize: '1rem', 
+      color: 'white', 
+      '& > *:not(:first-of-type)': { mt: 2 }
+    }}>
       <HeaderLink href="/" label={'Demo'} icon={<SwapIcon width="20" height="20" />} />
       <HeaderLink
         href="https://github.com/jup-ag/terminal"
@@ -46,7 +69,7 @@ const HeaderLinksMobile: React.FC = () => {
         label={'Discord'}
         icon={<DiscordIcon width="20" height="20" />}
       />
-    </div>
+    </Box>
   );
 };
 

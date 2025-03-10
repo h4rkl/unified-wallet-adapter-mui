@@ -4,11 +4,11 @@ import type { WalletContextState } from '@solana/wallet-adapter-react';
 import { useContext } from 'react';
 import { createContext } from 'react';
 import { IUnifiedWalletConfig } from './WalletConnectionProvider';
-import { TwStyle } from 'twin.macro';
+import { SxProps, Theme } from '@mui/material';
 
 export const MWA_NOT_FOUND_ERROR = 'MWA_NOT_FOUND_ERROR';
 export type IUnifiedTheme = 'light' | 'dark' | 'jupiter';
-export type IStandardStyle = Record<string, { [key in IUnifiedTheme]: TwStyle[] }>;
+export type IStandardStyle = Record<string, { [key in IUnifiedTheme]: SxProps<Theme> }>;
 
 export interface IUnifiedWalletContext {
   walletPrecedence: IUnifiedWalletConfig['walletPrecedence'];

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import 'twin.macro'
+import { Box, IconButton, Typography, Link } from '@mui/material';
 
-import CloseIcon from '../../icons/CloseIcon';
-import JupiterLogo from '../../icons/JupiterLogo';
-import MenuIcon from '../../icons/MenuIcon';
+import CloseIcon from '../icons/CloseIcon';
+import JupiterLogo from '../icons/JupiterLogo';
+import MenuIcon from '../icons/MenuIcon';
 import HeaderLinks from './HeaderLinks';
 import HeaderLinksMobile from './HeaderLinksMobile';
 
@@ -22,38 +22,67 @@ const AppHeader: React.FC<{}> = () => {
 
   return (
     <>
-      <div tw="flex items-center justify-between w-full bg-black/[.35]">
-        <div tw="flex items-center flex-1 p-4">
-          <button onClick={handleToggleMenu} type="button" tw="w-6 mr-3 md:hidden text-white">
-            {/* @ts-ignore */}
+      <Box sx={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        width: '100%', 
+        bgcolor: 'rgba(0, 0, 0, 0.35)'
+      }}>
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          flex: 1, 
+          p: 4 
+        }}>
+          <IconButton 
+            onClick={handleToggleMenu} 
+            sx={{ 
+              width: '1.5rem', 
+              mr: 3, 
+              display: { xs: 'block', md: 'none' }, 
+              color: 'white' 
+            }}
+          >
             {openMobileMenu ? <CloseIcon /> : <MenuIcon />}
-          </button>
+          </IconButton>
 
-          <a href="https://jup.ag" tw="flex-1">
-            <h1 tw="flex items-center text-lg font-semibold text-white">
-              {/* @ts-ignore */}
+          <Link href="https://jup.ag" sx={{ flex: 1 }}>
+            <Typography variant="h6" sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              fontSize: '1.125rem', 
+              fontWeight: 600, 
+              color: 'white' 
+            }}>
               <JupiterLogo />
-              <span tw="ml-3">Jupiter</span>
-            </h1>
-          </a>
-        </div>
+              <Box component="span" sx={{ ml: 3 }}>Jupiter</Box>
+            </Typography>
+          </Link>
+        </Box>
 
         <HeaderLinks />
 
-        <div tw="flex-1" />
-      </div>
+        <Box sx={{ flex: 1 }} />
+      </Box>
 
       {openMobileMenu && (
-        <div
-          style={{
+        <Box
+          sx={{
             height: 'calc(100vh - 70px)',
+            zIndex: 60,
+            display: { xs: 'block', md: 'none' },
+            position: 'fixed',
+            top: '60px',
+            left: 0,
+            width: '100%',
+            bgcolor: 'rgba(62,62,69,0.85)',
+            backdropFilter: 'blur(20px)'
           }}
-          tw="z-[60] md:hidden fixed top-[60px] left-0 w-full bg-[rgba(62,62,69,0.85)] backdrop-blur-[20px]"
           onClick={handleToggleMenu}
         >
-          {/* @ts-ignore */}
           <HeaderLinksMobile />
-        </div>
+        </Box>
       )}
     </>
   );

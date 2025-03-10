@@ -1,8 +1,8 @@
-import tw from 'twin.macro';
+import { Box, Link } from '@mui/material';
 
-import SwapIcon from '../../icons/SwapIcon';
-import RepoLogo from '../../icons/RepoLogo';
-import DiscordIcon from '../../icons/DiscordIcon';
+import SwapIcon from '../icons/SwapIcon';
+import RepoLogo from '../icons/RepoLogo';
+import DiscordIcon from '../icons/DiscordIcon';
 
 const HeaderLink = ({
   href,
@@ -18,12 +18,19 @@ const HeaderLink = ({
   external?: boolean;
 }) => {
   return (
-    <a
+    <Link
       href={href}
-      css={[
-        tw`flex items-center font-semibold text-white/50 hover:text-white fill-current h-[60px] px-4`,
-        isActive && tw`bg-v3-bg !text-v3-primary`,
-      ]}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        fontWeight: 600,
+        color: isActive ? 'v3-primary' : 'rgba(255, 255, 255, 0.5)',
+        '&:hover': { color: 'white' },
+        fill: 'currentColor',
+        height: '60px',
+        px: 4,
+        ...(isActive && { bgcolor: 'v3-bg' })
+      }}
       {...(external
         ? {
             target: '_blank',
@@ -31,15 +38,21 @@ const HeaderLink = ({
           }
         : {})}
     >
-      <span tw="w-5">{icon}</span>
-      <span tw="ml-2 whitespace-nowrap">{title}</span>
-    </a>
+      <Box sx={{ width: '1.25rem' }}>{icon}</Box>
+      <Box sx={{ ml: 2, whiteSpace: 'nowrap' }}>{title}</Box>
+    </Link>
   );
 };
 
 const HeaderLinks = () => {
   return (
-    <div tw="flex-1 justify-center hidden md:!flex text-sm h-full">
+    <Box sx={{ 
+      flex: 1, 
+      justifyContent: 'center', 
+      display: { xs: 'none', md: 'flex' }, 
+      fontSize: '0.875rem', 
+      height: '100%' 
+    }}>
       <HeaderLink href="/" isActive title={'Demo'} icon={<SwapIcon width="20" height="20" />} />
       <HeaderLink
         href="https://github.com/TeamRaccoons/wallet-kit"
@@ -55,7 +68,7 @@ const HeaderLinks = () => {
         title={'Discord'}
         icon={<DiscordIcon width="20" height="20" />}
       />
-    </div>
+    </Box>
   );
 };
 

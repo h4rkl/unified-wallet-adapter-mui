@@ -1,6 +1,5 @@
-import 'twin.macro';
 import React, { HTMLAttributes, PropsWithChildren, useEffect, useState } from 'react';
-import tw from 'twin.macro';
+import { Box } from '@mui/material';
 
 const Collapse: React.FC<
   PropsWithChildren<{
@@ -17,15 +16,19 @@ const Collapse: React.FC<
     else setLocalHeight(height);
   }, [height, maxHeight, expanded]);
 
-  const animationClass = expanded ? tw`animate-fade-in` : tw`animate-fade-out`;
-
   return (
-    <div
-      css={[tw`transition-all duration-200 overflow-hidden`, animationClass]}
-      style={{ height: localHeight, maxHeight }}
+    <Box
+      className={className}
+      sx={{
+        transition: 'all 0.2s',
+        overflow: 'hidden',
+        animation: expanded ? 'fadeIn 0.3s ease-in-out' : 'fadeOut 0.3s ease-in-out',
+        height: localHeight,
+        maxHeight
+      }}
     >
       {children}
-    </div>
+    </Box>
   );
 };
 

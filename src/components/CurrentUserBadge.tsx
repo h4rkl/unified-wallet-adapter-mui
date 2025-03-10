@@ -1,21 +1,34 @@
 import React from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import 'twin.macro';
-
 import { shortenAddress } from '../misc/utils';
-import tw from 'twin.macro';
 import { IStandardStyle, useUnifiedWalletContext } from '../contexts/UnifiedWalletContext';
+import { Button, Box, Typography } from '@mui/material';
 
-const styles: IStandardStyle = {
+const styles = {
   container: {
-    light: [tw`bg-white text-black`],
-    dark: [tw`bg-[#191B1F] text-white`],
-    jupiter: [tw`bg-v3-bg text-white`],
+    light: {
+      sx: {
+        bgcolor: 'white',
+        color: 'black',
+      },
+    },
+    dark: {
+      sx: {
+        bgcolor: '#191B1F',
+        color: 'white',
+      },
+    },
+    jupiter: {
+      sx: {
+        bgcolor: 'v3-bg', // Assuming v3-bg is a custom theme variable
+        color: 'white',
+      },
+    },
   },
   text: {
-    light: [tw`text-black`],
-    dark: [tw`text-white`],
-    jupiter: [tw`text-white`],
+    light: { color: 'black' },
+    dark: { color: 'white' },
+    jupiter: { color: 'white' },
   },
 };
 
@@ -28,21 +41,44 @@ export const CurrentUserBadge: React.FC<{ onClick?: () => void; className?: stri
   }
 
   return (
-    <button
-      type="button"
+    <Button
       onClick={onClick}
-      css={[styles.container[theme], tw`flex items-center py-2 px-3 rounded-2xl h-7 cursor-pointer`]}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        py: 1, // padding y: 8px (equivalent to py-2)
+        px: 1.5, // padding x: 12px (equivalent to px-3)
+        borderRadius: '16px', // rounded-2xl
+        height: '28px', // h-7
+        cursor: 'pointer',
+        ...styles.container[theme].sx,
+      }}
       className={className}
     >
-      <span
-        tw="w-4 h-4 rounded-full flex justify-center items-center"
-        style={{ position: 'relative' }}
+      <Box
+        sx={{
+          width: '16px', // w-4
+          height: '16px', // h-4
+          borderRadius: '50%', // rounded-full
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'relative',
+        }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img alt="Wallet logo" width={16} height={16} src={wallet?.adapter?.icon} />
-      </span>
+      </Box>
 
-      <span css={[tw`ml-2 text-xs`, styles.text[theme]]}>{shortenAddress(`${publicKey}`)}</span>
-    </button>
+      <Typography
+        sx={{
+          ml: 1, // ml-2
+          fontSize: '0.75rem', // text-xs
+          ...styles.text[theme],
+        }}
+      >
+        {shortenAddress(`${publicKey}`)}
+      </Typography>
+    </Button>
   );
 };

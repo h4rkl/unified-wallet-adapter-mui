@@ -1,12 +1,21 @@
 import Link from 'next/link';
-import 'twin.macro'
+import { Box } from '@mui/material';
 
-import DiscordIcon from '../../icons/DiscordIcon';
-import TwitterIcon from '../../icons/TwitterIcon';
+import DiscordIcon from '../icons/DiscordIcon';
+import TwitterIcon from '../icons/TwitterIcon';
 
 const Footer = () => {
   return (
-    <footer tw="flex text-center justify-center items-center p-2.5 text-xs text-white space-x-2">
+    <Box component="footer" sx={{ 
+      display: 'flex', 
+      textAlign: 'center', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      p: 2.5, 
+      fontSize: '0.75rem', 
+      color: 'white', 
+      '& > *:not(:first-of-type)': { ml: 2 }
+    }}>
       <Link href="https://twitter.com/jupiterexchange" target="_blank">
         <TwitterIcon />
       </Link>
@@ -14,7 +23,7 @@ const Footer = () => {
       <Link href="https://discord.gg/jup" target="_blank">
         <DiscordIcon />
       </Link>
-    </footer>
+    </Box>
   );
 };
 

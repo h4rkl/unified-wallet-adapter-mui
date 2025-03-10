@@ -1,112 +1,179 @@
 import React, { useState } from 'react';
-import 'twin.macro';
+import { Box, Typography, Button, Container, Paper, Grid } from '@mui/material';
 
 import AppHeader from '../components/AppHeader/AppHeader';
 import Footer from '../components/Footer/Footer';
-import ExampleAllWallets from '../components/examples/ExampleAllWallets';
 import ExampleBaseOnly from '../components/examples/ExampleBaseOnly';
-import ExampleSelectedWallets from '../components/examples/ExampleSelectedWallets';
 import { IUnifiedTheme } from '../contexts/UnifiedWalletContext';
 import { AllLanguage, DEFAULT_LANGUAGE, LANGUAGE_LABELS, OTHER_LANGUAGES } from '../contexts/TranslationProvider/i18n';
-import tw from 'twin.macro';
-import V2SexyChameleonText from '../components/SexyChameleonText/V2SexyChameleonText';
 
 const Index = () => {
   const [theme, setTheme] = useState<IUnifiedTheme>('dark');
   const [lang, setLang] = useState<AllLanguage>('en');
 
   return (
-    <>
-      <div tw="bg-v3-bg h-screen w-screen max-w-[100vw] overflow-x-hidden flex flex-col justify-between">
-        <div>
-          <AppHeader />
+    <Box
+      sx={{
+        bgcolor: 'v3.bg',
+        minHeight: '100vh',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Box>
+        <AppHeader />
 
-          <div tw="">
-            <div tw="flex flex-col items-center h-full w-full mt-4 md:mt-14">
-              <div tw="flex flex-col justify-center items-center text-center">
-                <V2SexyChameleonText>
-                  <span tw="text-4xl md:text-[52px] font-semibold px-4 pb-2 md:px-0">Unified Wallet Kit</span>
-                </V2SexyChameleonText>
-                <p tw="text-[#9D9DA6] text-base mt-4 px-2">
-                  Unified Wallet Kit is an open-sourced, the Swiss Army Knife wallet adapter.
-                  <br />
-                  Easiest integration for devs, Best experience for users.
-                </p>
-              </div>
-            </div>
+        <Container maxWidth="lg">
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              pt: { xs: 4, md: 8 },
+              pb: 6,
+            }}
+          >
+            <Box
+              sx={{
+                textAlign: 'center',
+                mb: 4,
+              }}
+            >
+              <Typography
+                variant="h1"
+                sx={{
+                  fontSize: { xs: '2rem', md: '3.25rem' },
+                  fontWeight: 600,
+                  mb: 2,
+                }}
+              >
+                Unified Wallet Kit
+              </Typography>
 
-            <div tw="flex flex-col space-y-10 items-center justify-center p-4">
-              <div tw="text-white font-semibold text-sm space-y-8">
-                <div tw="flex flex-col">
-                  <div tw="w-full border-b border-b-white/10 font-semibold text-center mb-2 pb-2">Theme</div>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  color: 'text.secondary',
+                  mt: 2,
+                  px: 2,
+                }}
+              >
+                Unified Wallet Kit is an open-sourced, the Swiss Army Knife wallet adapter.
+                <br />
+                Easiest integration for devs, Best experience for users.
+              </Typography>
+            </Box>
 
-                  <div tw="flex flex-wrap gap-3">
+            <Grid container spacing={4} sx={{ mt: 4 }}>
+              <Grid item xs={12} md={6}>
+                <Paper elevation={3} sx={{ p: 3, borderRadius: 2 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      borderBottom: '1px solid',
+                      borderColor: 'divider',
+                      pb: 1,
+                      mb: 2,
+                      fontWeight: 600,
+                      textAlign: 'center',
+                    }}
+                  >
+                    Theme
+                  </Typography>
+
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 2,
+                      justifyContent: 'center',
+                    }}
+                  >
                     {(['light', 'dark', 'jupiter'] as IUnifiedTheme[]).map((t) => (
-                      <button
-                        type="button"
+                      <Button
                         key={t}
+                        variant={theme === t ? 'contained' : 'outlined'}
                         onClick={() => setTheme(t)}
-                        css={[
-                          tw`cursor-pointer border border-white/10 rounded-lg py-1.5 px-3`,
-                          theme === t ? tw`bg-white text-black` : 'hover:bg-white/10',
-                        ]}
+                        sx={{
+                          textTransform: 'capitalize',
+                          minWidth: '100px',
+                        }}
                       >
                         {t}
-                      </button>
+                      </Button>
                     ))}
-                  </div>
-                </div>
+                  </Box>
+                </Paper>
+              </Grid>
 
-                <div tw="flex flex-col">
-                  <div tw="w-full border-b border-b-white/10 font-semibold text-center mb-2 pb-2">Language</div>
+              <Grid item xs={12} md={6}>
+                <Paper elevation={3} sx={{ p: 3, borderRadius: 2 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      borderBottom: '1px solid',
+                      borderColor: 'divider',
+                      pb: 1,
+                      mb: 2,
+                      fontWeight: 600,
+                      textAlign: 'center',
+                    }}
+                  >
+                    Language
+                  </Typography>
 
-                  <div tw="flex flex-wrap gap-3">
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 2,
+                      justifyContent: 'center',
+                    }}
+                  >
                     {[DEFAULT_LANGUAGE, ...OTHER_LANGUAGES].map((l) => (
-                      <button
-                        type="button"
+                      <Button
                         key={l}
+                        variant={lang === l ? 'contained' : 'outlined'}
                         onClick={() => setLang(l)}
-                        css={[
-                          tw`cursor-pointer border border-white/10 rounded-lg py-1.5 px-3`,
-                          lang === l ? tw`bg-white text-black` : 'hover:bg-white/10',
-                        ]}
+                        sx={{
+                          textTransform: 'capitalize',
+                          minWidth: '100px',
+                        }}
                       >
                         {LANGUAGE_LABELS[l]}
-                      </button>
+                      </Button>
                     ))}
-                  </div>
-                </div>
-              </div>
+                  </Box>
+                </Paper>
+              </Grid>
+            </Grid>
 
-              <div className="hideScrollbar" tw="bg-black/25 mt-12 max-w-[600px] rounded-xl p-4 w-full">
-                <div tw="font-semibold text-white">Base with Wallet Standard only</div>
-                <div tw="mt-4">
-                  <ExampleBaseOnly theme={theme} lang={lang} />
-                </div>
-              </div>
+            <Paper
+              elevation={3}
+              sx={{
+                mt: 6,
+                p: 4,
+                width: '100%',
+                borderRadius: 2,
+                bgcolor: 'background.paper',
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                Base with Wallet Standard only
+              </Typography>
+              <Box sx={{ mt: 3 }}>
+                <ExampleBaseOnly theme={theme} lang={lang} />
+              </Box>
+            </Paper>
 
-              <div className="hideScrollbar" tw="bg-black/25 mt-12 max-w-[600px] rounded-xl p-4 w-full">
-                <div tw="font-semibold text-white">More wallets + Jupiter Mobile</div>
-                <div tw="mt-4">
-                  <ExampleSelectedWallets theme={theme} lang={lang} />
-                </div>
-              </div>
+          </Box>
+        </Container>
+      </Box>
 
-              <div className="hideScrollbar" tw="bg-black/25 mt-12 max-w-[600px] rounded-xl p-4 w-full">
-                <div tw="font-semibold text-white">Example with All Wallets, and Custom Wallets</div>
-                <div tw="mt-4">
-                  <ExampleAllWallets theme={theme} lang={lang} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div tw="w-full mt-12">
-          <Footer />
-        </div>
-      </div>
-    </>
+      <Footer />
+    </Box>
   );
 };
 

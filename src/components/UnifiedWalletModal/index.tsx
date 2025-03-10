@@ -1,7 +1,6 @@
 import { Adapter, WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { useToggle } from 'react-use';
-import tw from 'twin.macro';
 
 import { WalletIcon, WalletListItem } from './WalletListItem';
 
@@ -11,65 +10,169 @@ import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapt
 import { useTranslation } from '../../contexts/TranslationProvider';
 import { IStandardStyle, useUnifiedWallet, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
 import { usePreviouslyConnected } from '../../contexts/WalletConnectionProvider/previouslyConnectedProvider';
-import ChevronDownIcon from '../../icons/ChevronDownIcon';
-import ChevronUpIcon from '../../icons/ChevronUpIcon';
-import CloseIcon from '../../icons/CloseIcon';
+import ChevronDownIcon from '../icons/ChevronDownIcon';
+import ChevronUpIcon from '../icons/ChevronUpIcon';
+import CloseIcon from '../icons/CloseIcon';
 import { isMobile, useOutsideClick } from '../../misc/utils';
-import NotInstalled from './NotInstalled';
 import { OnboardingFlow } from './Onboarding';
+
+// Material UI imports
+import {
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Divider,
+  Paper,
+  Grid,
+  styled,
+  useTheme,
+} from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
+// Styled components with MUI
+const ModalContainer = styled(Paper, {
+  shouldForwardProp: (prop) => prop !== 'theme',
+})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
+  maxWidth: '500px',
+  width: '100%',
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden',
+  borderRadius: theme.shape.borderRadius * 2,
+  maxHeight: '90vh',
+  [theme.breakpoints.up('lg')]: {
+    maxHeight: '576px',
+  },
+  transition: 'height 500ms ease-in-out',
+  ...(customtheme === 'light' && {
+    backgroundColor: '#ffffff',
+    color: '#000000',
+    boxShadow: theme.shadows[10],
+  }),
+  ...(customtheme === 'dark' && {
+    backgroundColor: '#3A3B43',
+    color: '#ffffff',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+  }),
+  ...(customtheme === 'jupiter' && {
+    backgroundColor: 'rgb(49, 62, 76)',
+    color: '#ffffff',
+  }),
+}));
+
+const BottomShade = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'theme',
+})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
+  display: 'block',
+  width: '100%',
+  height: '80px',
+  position: 'absolute',
+  left: 0,
+  bottom: '28px',
+  zIndex: 50,
+  pointerEvents: 'none',
+  ...(customtheme === 'light' && {
+    background: 'linear-gradient(to top, #ffffff, transparent)',
+  }),
+  ...(customtheme === 'dark' && {
+    background: 'linear-gradient(to top, #3A3B43, transparent)',
+  }),
+  ...(customtheme === 'jupiter' && {
+    background: 'linear-gradient(to top, rgb(49, 62, 76), transparent)',
+  }),
+}));
+
+const ListContainer = styled(Box)({
+  height: '100%',
+  overflowY: 'auto',
+  paddingTop: '12px',
+  paddingBottom: '32px',
+  position: 'relative',
+  '&.hideScrollbar': {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+    msOverflowStyle: 'none',
+    scrollbarWidth: 'none',
+  },
+});
 
 const styles: IStandardStyle = {
   container: {
-    light: [tw`text-black !bg-white shadow-xl`],
-    dark: [tw`text-white !bg-[#3A3B43] border border-white/10`],
-    jupiter: [tw`text-white bg-[rgb(49, 62, 76)]`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
   shades: {
-    light: [tw`bg-gradient-to-t from-[#ffffff] to-transparent pointer-events-none`],
-    dark: [tw`bg-gradient-to-t from-[#3A3B43] to-transparent pointer-events-none`],
-    jupiter: [tw`bg-gradient-to-t from-[rgb(49, 62, 76)] to-transparent pointer-events-none`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
   walletItem: {
-    light: [tw`bg-gray-50 hover:shadow-lg hover:border-black/10`],
-    dark: [tw`hover:shadow-2xl hover:bg-white/10`],
-    jupiter: [tw`hover:shadow-2xl hover:bg-white/10`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
   subtitle: {
-    light: [tw`text-black/50`],
-    dark: [tw`text-white/50`],
-    jupiter: [tw`text-white/50`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
   header: {
-    light: [tw`border-b`],
+    light: [],
     dark: [],
     jupiter: [],
   },
   text: {
-    light: [tw`text-black`],
-    dark: [tw`text-white`],
-    jupiter: [tw`text-white`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
 };
 
 const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { theme } = useUnifiedWalletContext();
   const { t } = useTranslation();
+  const muiTheme = useTheme();
 
   return (
-    <div css={[tw`px-5 py-6 flex justify-between leading-none`, styles.header[theme]]}>
-      <div>
-        <div tw="font-semibold">
-          <span>{t(`Connect Wallet`)}</span>
-        </div>
-        <div css={[tw`text-xs mt-1`, styles.subtitle[theme]]}>
-          <span>{t(`You need to connect a Solana wallet.`)}</span>
-        </div>
-      </div>
+    <Box
+      sx={{
+        px: 5,
+        py: 6,
+        display: 'flex',
+        justifyContent: 'space-between',
+        lineHeight: 'none',
+        borderBottom: theme === 'light' ? 1 : 0,
+        borderColor: 'divider',
+      }}
+    >
+      <Box>
+        <Typography variant="subtitle1" fontWeight="600">
+          {t(`Connect Wallet`)}
+        </Typography>
+        <Typography
+          variant="caption"
+          sx={{
+            mt: 1,
+            color: theme === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+          }}
+        >
+          {t(`You need to connect a Solana wallet.`)}
+        </Typography>
+      </Box>
 
-      <button tw="absolute top-4 right-4" onClick={onClose}>
-        <CloseIcon width={12} height={12} />
-      </button>
-    </div>
+      <IconButton
+        size="small"
+        onClick={onClose}
+        sx={{ position: 'absolute', top: 16, right: 16 }}
+      >
+        <CloseIcon sx={{ width: 12, height: 12 }} />
+      </IconButton>
+    </Box>
   );
 };
 
@@ -97,25 +200,30 @@ const ListOfWallets: React.FC<{
 
   const renderWalletList = useMemo(
     () => (
-      <div>
-        <div tw="mt-4 grid gap-2 grid-cols-2 pb-4" translate="no">
-          {list.others.map((adapter, index) => {
-            return (
-              <ul key={index}>
-                <WalletListItem handleClick={(e) => onClickWallet(e, adapter)} wallet={adapter} />
-              </ul>
-            );
-          })}
-        </div>
+      <Box>
+        <Grid container spacing={2} sx={{ mt: 4, pb: 4 }} translate="no">
+          {list.others.map((adapter, index) => (
+            <Grid item xs={6} key={index}>
+              <WalletListItem handleClick={(e) => onClickWallet(e, adapter)} wallet={adapter} />
+            </Grid>
+          ))}
+        </Grid>
 
         {list.highlightedBy !== 'Onboarding' && walletlistExplanation ? (
-          <div css={[tw`text-xs font-semibold underline`, list.others.length > 6 ? tw`mb-8` : '']}>
+          <Typography 
+            variant="caption" 
+            fontWeight="600" 
+            sx={{ 
+              textDecoration: 'underline',
+              mb: list.others.length > 6 ? 8 : 0
+            }}
+          >
             <a href={walletlistExplanation.href} target="_blank" rel="noopener noreferrer">
-              <span>{t(`Can't find your wallet?`)}</span>
+              {t(`Can't find your wallet?`)}
             </a>
-          </div>
+          </Typography>
         ) : null}
-      </div>
+      </Box>
     ),
     [handleConnectClick, list.others],
   );
@@ -149,42 +257,50 @@ const ListOfWallets: React.FC<{
 
   return (
     <>
-      <div className="hideScrollbar" css={[tw`h-full overflow-y-auto pt-3 pb-8 px-5 relative`, isOpen && tw`mb-7`]}>
-        <span tw="mt-6 text-xs font-semibold">
+      <ListContainer className="hideScrollbar" sx={{ pt: 3, pb: 8, px: 5, position: 'relative', mb: isOpen ? 7 : 0 }}>
+        <Typography variant="caption" fontWeight="600" sx={{ mt: 6 }}>
           {list.highlightedBy === 'PreviouslyConnected' ? t(`Recently used`) : null}
           {list.highlightedBy === 'TopAndRecommended' ? t(`Recommended wallets`) : null}
-        </span>
+        </Typography>
 
-        <div>
-          <div tw="mt-4 grid gap-2 grid-cols-2 pb-4" translate="no">
-            {list.highlight.map((adapter, index) => {
-              return (
-                <ul key={index}>
-                  <WalletListItem handleClick={(e) => onClickWallet(e, adapter)} wallet={adapter} />
-                </ul>
-              );
-            })}
-          </div>
-        </div>
+        <Box>
+          <Grid container spacing={2} sx={{ mt: 4, pb: 4 }} translate="no">
+            {list.highlight.map((adapter, index) => (
+              <Grid item xs={6} key={index}>
+                <WalletListItem handleClick={(e) => onClickWallet(e, adapter)} wallet={adapter} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
 
         {list.others.length > 0 ? (
           <>
-            <button type="button" tw="mt-5 flex w-full items-center justify-between cursor-pointer" onClick={onToggle}>
-              <span tw="text-xs font-semibold">
-                <span css={[styles.text[theme]]}>{t(`More wallets`)}</span>
-              </span>
-            </button>
+            <Button
+              variant="text"
+              sx={{ 
+                mt: 5, 
+                display: 'flex', 
+                width: '100%', 
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                color: theme === 'light' ? 'black' : 'white'
+              }}
+              onClick={onToggle}
+            >
+              <Typography variant="caption" fontWeight="600">
+                {t(`More wallets`)}
+              </Typography>
+              {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </Button>
 
-            {renderWalletList}
+            {isOpen && renderWalletList}
           </>
         ) : null}
-      </div>
+      </ListContainer>
 
       {/* Bottom Shades */}
       {isOpen && list.others.length > 6 ? (
-        <>
-          <div css={[tw`block w-full h-20 absolute left-0 bottom-7 z-50`, styles.shades[theme]]} />
-        </>
+        <BottomShade customtheme={theme} />
       ) : null}
     </>
   );
@@ -342,19 +458,13 @@ const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
   useOutsideClick(contentRef, onClose);
 
   return (
-    <div
-      ref={contentRef}
-      css={[
-        tw`max-w-md w-full relative flex flex-col overflow-hidden rounded-xl max-h-[90vh] lg:max-h-[576px] transition-height duration-500 ease-in-out `,
-        styles.container[theme],
-      ]}
-    >
+    <ModalContainer ref={contentRef} customtheme={theme}>
       <Header onClose={onClose} />
-      <div tw="border-t-[1px] border-white/10" />
+      <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.1)' }} />
       <ListOfWallets list={list} onToggle={onToggle} isOpen={isOpen} />
 
       {walletModalAttachments?.footer ? <>{walletModalAttachments?.footer}</> : null}
-    </div>
+    </ModalContainer>
   );
 };
 

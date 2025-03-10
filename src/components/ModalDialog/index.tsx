@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useCallback, useEffect, useRef, useState } from 'react'
-import tw from 'twin.macro';
+import { Box, Dialog } from '@mui/material';
 
 const ModalDialog: React.FC<{ open: boolean; onClose: () => void } & PropsWithChildren> = ({ open, onClose: onCloseFunc, children }) => {
   const ref = useRef<HTMLDialogElement>(null);
@@ -43,17 +43,30 @@ const ModalDialog: React.FC<{ open: boolean; onClose: () => void } & PropsWithCh
 
   if (!isLocalOpen) return null;
   return (
-    <dialog
-      role="dialog"
-      aria-modal="true"
-      css={[
-        tw`top-0 left-0 h-full w-full flex items-center justify-center bg-black/25 backdrop-blur-sm animate-fade-in cursor-auto z-50`,
-        isLocalOpen && !open && tw`animate-fade-out opacity-0`,
-      ]}
-      ref={ref}
+    <Dialog
+      open={isLocalOpen}
+      onClose={onCloseFunc}
+      sx={{
+        '& .MuiDialog-paper': {
+          margin: 0,
+          width: '100%',
+          height: '100%',
+          maxWidth: 'none',
+          maxHeight: 'none',
+          bgcolor: 'transparent',
+          boxShadow: 'none',
+        },
+        '& .MuiBackdrop-root': {
+          bgcolor: 'rgba(0, 0, 0, 0.25)',
+          backdropFilter: 'blur(4px)',
+        },
+        zIndex: 50,
+        animation: isLocalOpen && !open ? 'fadeOut 0.3s' : 'fadeIn 0.3s',
+        opacity: isLocalOpen && !open ? 0 : 1,
+      }}
     >
       {children}
-    </dialog>
+    </Dialog>
   )
 }
 

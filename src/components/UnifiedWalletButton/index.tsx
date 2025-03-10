@@ -1,47 +1,65 @@
 import React, { ReactNode, useCallback } from 'react';
 import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
-import tw from 'twin.macro';
+import { Button, Box, Typography, useTheme } from '@mui/material';
 
 import { CurrentUserBadge } from '../CurrentUserBadge';
 import { useUnifiedWalletContext, useUnifiedWallet } from '../../contexts/UnifiedWalletProvider';
-import { IStandardStyle, MWA_NOT_FOUND_ERROR } from '../../contexts/UnifiedWalletContext';
+import { MWA_NOT_FOUND_ERROR } from '../../contexts/UnifiedWalletContext';
 import { useTranslation } from '../../contexts/TranslationProvider';
 
-const styles: IStandardStyle = {
-  container: {
-    light: [tw`bg-white text-black`],
-    dark: [tw`bg-[#31333B] text-white`],
-    jupiter: [tw`bg-v3-bg text-white`],
-  },
+const getThemeStyles = (theme: string) => {
+  switch (theme) {
+    case 'light':
+      return {
+        bgcolor: 'white',
+        color: 'black',
+      };
+    case 'dark':
+      return {
+        bgcolor: '#31333B',
+        color: 'white',
+      };
+    case 'jupiter':
+      return {
+        bgcolor: 'v3-bg',
+        color: 'white',
+      };
+    default:
+      return {
+        bgcolor: 'white',
+        color: 'black',
+      };
+  }
 };
 
 export const UnifiedWalletButton: React.FC<{
   overrideContent?: ReactNode;
   buttonClassName?: string;
   currentUserClassName?: string;
-}> = ({ overrideContent, buttonClassName: className, currentUserClassName }) => {
+}> = ({ overrideContent, buttonClassName, currentUserClassName }) => {
   const { setShowModal, theme } = useUnifiedWalletContext();
   const { disconnect, connect, connecting, wallet } = useUnifiedWallet();
   const { t } = useTranslation();
+  const muiTheme = useTheme();
 
   const content = (
     <>
       {connecting && (
-        <span tw="text-xs">
-          <span>{t(`Connecting...`)}</span>
-        </span>
+        <Typography variant="caption">
+          {t(`Connecting...`)}
+        </Typography>
       )}
       {/* Mobile */}
       {!connecting && (
-        <span tw="block md:hidden">
-          <span>{t(`Connect`)}</span>
-        </span>
+        <Typography variant="caption" sx={{ display: { xs: 'block', md: 'none' } }}>
+          {t(`Connect`)}
+        </Typography>
       )}
       {/* Desktop */}
       {!connecting && (
-        <span tw="hidden md:block">
-          <span>{t(`Connect Wallet`)}</span>
-        </span>
+        <Typography variant="caption" sx={{ display: { xs: 'none', md: 'block' } }}>
+          {t(`Connect Wallet`)}
+        </Typography>
       )}
     </>
   );
@@ -50,7 +68,6 @@ export const UnifiedWalletButton: React.FC<{
     try {
       if (wallet?.adapter?.name === SolanaMobileWalletAdapterWalletName) {
         await connect();
-
         return;
       } else {
         setShowModal(true);
@@ -60,29 +77,42 @@ export const UnifiedWalletButton: React.FC<{
         setShowModal(true);
       }
     }
-  }, [wallet, connect]);
+  }, [wallet, connect, setShowModal]);
 
   return (
     <>
       {!wallet?.adapter.connected ? (
         <>
           {overrideContent ? (
-            // To prevent react render error where <button> is nested
-            <div css={styles.container[theme]} className={className} onClick={handleClick}>
+            <Box 
+              sx={{
+                ...getThemeStyles(theme),
+                cursor: 'pointer',
+              }}
+              className={buttonClassName}
+              onClick={handleClick}
+            >
               {overrideContent}
-            </div>
+            </Box>
           ) : (
-            <button
+            <Button
               type="button"
-              css={[
-                tw`rounded-lg text-xs py-3 px-5 font-semibold cursor-pointer text-center w-auto`,
-                styles.container[theme],
-              ]}
-              className={className}
+              sx={{
+                borderRadius: '8px',
+                fontSize: '0.75rem',
+                py: 1.5,
+                px: 2.5,
+                fontWeight: 600,
+                cursor: 'pointer',
+                textAlign: 'center',
+                width: 'auto',
+                ...getThemeStyles(theme),
+              }}
+              className={buttonClassName}
               onClick={handleClick}
             >
               {content}
-            </button>
+            </Button>
           )}
         </>
       ) : (

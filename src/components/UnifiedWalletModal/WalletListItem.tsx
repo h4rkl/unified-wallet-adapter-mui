@@ -1,13 +1,14 @@
 import { Adapter } from '@solana/wallet-adapter-base';
 import React, { DetailedHTMLProps, FC, ImgHTMLAttributes, MouseEventHandler, useCallback, useMemo } from 'react';
-import 'twin.macro';
 
-import UnknownIconSVG from '../../icons/UnknownIconSVG';
+import UnknownIconSVG from '../icons/UnknownIconSVG';
 import { isMobile } from '../../misc/utils';
 import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
-import tw from 'twin.macro';
 import { IStandardStyle, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
 import { useTranslation } from '../../contexts/TranslationProvider';
+
+// Material UI imports
+import { Box, Button, Typography, styled } from '@mui/material';
 
 export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
   wallet: Adapter | null;
@@ -15,11 +16,45 @@ export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTM
   height?: number;
 }
 
+const WalletButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== 'customtheme',
+})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  width: '100%',
+  padding: '16px 20px',
+  gap: '20px',
+  transition: 'all 0.2s',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  borderRadius: theme.shape.borderRadius * 2,
+  cursor: 'pointer',
+  justifyContent: 'flex-start',
+  ...(customtheme === 'light' && {
+    backgroundColor: '#F9FAFB',
+    '&:hover': {
+      boxShadow: theme.shadows[3],
+      borderColor: 'rgba(0, 0, 0, 0.1)',
+    },
+  }),
+  ...(customtheme === 'dark' && {
+    '&:hover': {
+      boxShadow: theme.shadows[8],
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    },
+  }),
+  ...(customtheme === 'jupiter' && {
+    '&:hover': {
+      boxShadow: theme.shadows[8],
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    },
+  }),
+}));
+
 const styles: IStandardStyle = {
   container: {
-    light: [tw`bg-gray-50 hover:shadow-lg hover:border-black/10`],
-    dark: [tw`hover:shadow-2xl hover:bg-white/10`],
-    jupiter: [tw`hover:shadow-2xl hover:bg-white/10`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
 };
 
@@ -30,23 +65,22 @@ export const WalletIcon: FC<WalletIconProps> = ({ wallet, width = 24, height = 2
 
   if (wallet && wallet.icon && !hasError) {
     return (
-      <span style={{ minWidth: width, minHeight: height }}>
-        {/* // eslint-disable-next-line @next/next/no-img-element */}
+      <Box sx={{ minWidth: width, minHeight: height }}>
         <img
           width={width}
           height={height}
           src={wallet.icon}
           alt={`${wallet.name} icon`}
-          tw="object-contain"
+          style={{ objectFit: 'contain' }}
           onError={onError}
         />
-      </span>
+      </Box>
     );
   } else {
     return (
-      <span style={{ minWidth: width, minHeight: height }}>
+      <Box sx={{ minWidth: width, minHeight: height }}>
         <UnknownIconSVG width={width} height={height} />
-      </span>
+      </Box>
     );
   }
 };
@@ -68,21 +102,28 @@ export const WalletListItem = ({ handleClick, wallet }: WalletListItemProps) => 
 
   return (
     <li>
-      <button
-        type="button"
+      <WalletButton
         onClick={handleClick}
-        css={[
-          tw`flex items-center w-full px-5 py-4 space-x-5 transition-all border rounded-lg cursor-pointer border-white/10 hover:bg-white/10 hover:backdrop-blur-xl hover:shadow-2xl`,
-          styles.container[theme],
-        ]}
+        customtheme={theme}
+        variant="text"
       >
         {isMobile() ? (
           <WalletIcon wallet={wallet} width={24} height={24} />
         ) : (
           <WalletIcon wallet={wallet} width={30} height={30} />
         )}
-        <span tw="font-semibold text-xs overflow-hidden text-ellipsis">{adapterName}</span>
-      </button>
+        <Typography
+          variant="body2"
+          fontWeight="600"
+          sx={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {adapterName}
+        </Typography>
+      </WalletButton>
     </li>
   );
 };

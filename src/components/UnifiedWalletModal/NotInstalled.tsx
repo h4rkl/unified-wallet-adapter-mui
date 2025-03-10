@@ -2,19 +2,53 @@ import { Adapter } from '@solana/wallet-adapter-base';
 import React from 'react';
 import { useTranslation } from '../../contexts/TranslationProvider';
 import { IStandardStyle, IUnifiedTheme, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
-import tw, { TwStyle } from 'twin.macro';
 import ExternalIcon from '../icons/ExternalIcon';
+
+// Material UI imports
+import { Box, Typography, Button, Stack, Divider, styled } from '@mui/material';
+
+// Replace the existing styles definition
+const ActionButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== 'customtheme',
+})<{ customtheme: 'light' | 'dark' | 'jupiter' }>(({ theme, customtheme }) => ({
+  color: 'white',
+  fontWeight: 600,
+  width: '100%',
+  borderRadius: theme.shape.borderRadius * 2,
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  padding: '16px 8px',
+  fontSize: '0.75rem',
+  lineHeight: 'none',
+  ...(customtheme === 'light' && {
+    backgroundColor: '#31333B',
+    '&:hover': {
+      backgroundColor: 'black',
+    },
+  }),
+  ...(customtheme === 'dark' && {
+    backgroundColor: '#31333B',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    },
+  }),
+  ...(customtheme === 'jupiter' && {
+    backgroundColor: 'black',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+  }),
+}));
 
 const styles: IStandardStyle = {
   subtitle: {
-    light: [tw`text-black/70`],
-    dark: [tw`text-white/50`],
-    jupiter: [tw`text-white/50`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
   button: {
-    light: [tw`bg-[#31333B] text-white hover:bg-black`],
-    dark: [tw`bg-[#31333B] hover:bg-black/30`],
-    jupiter: [tw`bg-black hover:bg-black/50`],
+    light: [],
+    dark: [],
+    jupiter: [],
   },
 };
 
@@ -27,19 +61,38 @@ const NotInstalled: React.FC<{ adapter: Adapter; onClose: () => void; onGoOnboar
   const { t } = useTranslation();
 
   return (
-    <div css={[tw`duration-500 animate-fade-in overflow-y-scroll`]} className="hideScrollbar">
-      <div tw="flex flex-col justify-center items-center p-5">
-        <img src={adapter.icon} width={100} height={100} />
-      </div>
+    <Box 
+      sx={{ 
+        animation: 'fadeIn 0.5s', 
+        overflow: 'auto',
+        '@keyframes fadeIn': {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 }
+        }
+      }}
+      className="hideScrollbar"
+    >
+      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 5 }}>
+        <img src={adapter.icon} width={100} height={100} alt={adapter.name} />
+      </Box>
 
-      <div tw="flex flex-col justify-center items-center text-center">
-        <span tw="text-base font-semibold">{t(`Have you installed`) + ` ${adapter.name}?`}</span>
+      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+        <Typography variant="body1" fontWeight="600">
+          {t(`Have you installed`) + ` ${adapter.name}?`}
+        </Typography>
 
         <a
           href={adapter.url}
           rel="noopener noreferrer"
           target="_blank"
-          tw="text-xs flex my-3 items-center space-x-2 underline"
+          style={{ 
+            fontSize: '0.75rem', 
+            display: 'flex', 
+            margin: '12px 0', 
+            alignItems: 'center', 
+            textDecoration: 'underline',
+            gap: '8px'
+          }}
         >
           <span>
             {t(`Install`)} {adapter.name}
@@ -47,47 +100,37 @@ const NotInstalled: React.FC<{ adapter: Adapter; onClose: () => void; onGoOnboar
           <ExternalIcon />
         </a>
 
-        <div tw="mt-5 flex w-full px-10 flex-col items-start justify-start text-start">
-          <p tw="text-xs font-semibold">{t(`On mobile:`)}</p>
-          <ul tw="text-xs pl-8 mt-2 list-disc">
+        <Box sx={{ mt: 5, width: '100%', px: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', textAlign: 'left' }}>
+          <Typography variant="caption" fontWeight="600">
+            {t(`On mobile:`)}
+          </Typography>
+          <Box component="ul" sx={{ fontSize: '0.75rem', pl: 8, mt: 2, listStyleType: 'disc' }}>
             <li>{t(`You should open the app instead`)}</li>
-          </ul>
-        </div>
+          </Box>
+        </Box>
 
-        <div tw="mt-5 flex w-full px-10 flex-col items-start justify-start text-start">
-          <p tw="text-xs font-semibold">{t(`On desktop:`)}</p>
-          <ul tw="text-xs pl-8 mt-2 list-disc">
+        <Box sx={{ mt: 5, width: '100%', px: 10, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'flex-start', textAlign: 'left' }}>
+          <Typography variant="caption" fontWeight="600">
+            {t(`On desktop:`)}
+          </Typography>
+          <Box component="ul" sx={{ fontSize: '0.75rem', pl: 8, mt: 2, listStyleType: 'disc' }}>
             <li>{t(`Install and refresh the page`)}</li>
-          </ul>
-        </div>
+          </Box>
+        </Box>
 
-        <div tw="border-t border-t-white/10 mt-5 w-full" />
+        <Divider sx={{ mt: 5, width: '100%', borderColor: 'rgba(255, 255, 255, 0.1)' }} />
 
-        <div tw="flex space-x-2 justify-between w-full p-5">
-          <button
-            type="button"
-            css={[
-              tw`text-white font-semibold text-base w-full rounded-lg border border-white/10 px-2 py-4 leading-none text-xs`,
-              styles.button[theme],
-            ]}
-            onClick={onGoOnboarding}
-          >
+        <Stack direction="row" spacing={2} sx={{ justifyContent: 'space-between', width: '100%', p: 5 }}>
+          <ActionButton customtheme={theme} onClick={onGoOnboarding}>
             {t(`I don't have a wallet`)}
-          </button>
+          </ActionButton>
 
-          <button
-            type="button"
-            css={[
-              tw`text-white font-semibold text-base w-full rounded-lg border border-white/10 px-2 py-4 leading-none text-xs`,
-              styles.button[theme],
-            ]}
-            onClick={onClose}
-          >
+          <ActionButton customtheme={theme} onClick={onClose}>
             {'← ' + t(`Go back`)}
-          </button>
-        </div>
-      </div>
-    </div>
+          </ActionButton>
+        </Stack>
+      </Box>
+    </Box>
   );
 };
 

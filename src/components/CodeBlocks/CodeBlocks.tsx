@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
-import 'twin.macro';
+import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { vs2015 } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 import Collapse from '../Collapse';
-import tw from 'twin.macro';
 import ChevronDownIcon from '../icons/ChevronDownIcon';
 import ChevronUpIcon from '../icons/ChevronUpIcon';
 import { UnifiedWalletProvider } from '../../contexts/UnifiedWalletProvider';
@@ -47,7 +46,7 @@ const CodeBlocks: React.FC<{ params: Omit<Parameters<typeof UnifiedWalletProvide
       .then((res) => {
         setSnippet(res);
       });
-  }, [USE_WALLET_SNIPPET])
+  }, [USE_WALLET_SNIPPET]);
 
   const [isCopied, setIsCopied] = useState(false);
 
@@ -68,38 +67,65 @@ const CodeBlocks: React.FC<{ params: Omit<Parameters<typeof UnifiedWalletProvide
   return (
     <>
       <Collapse height={0} maxHeight={'auto'} expanded={expanded}>
-        <div className='hideScrollbar' tw="flex flex-col items-center justify-center mt-4 text-white overflow-scroll">
-          <div tw="relative w-full max-w-3xl px-4 md:px-0">
-            <div tw="flex w-full justify-between ">
-              <p tw="text-white self-start pb-2 font-semibold">Code snippet</p>
-              <button
-                css={[
-                  tw`text-xs text-white border rounded-xl px-2 py-1 opacity-50 hover:opacity-100`,
-                  isCopied ? tw`opacity-100 cursor-wait` : '',
-                ]}
+        <Box 
+          className='hideScrollbar' 
+          sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            mt: 4, 
+            color: 'white', 
+            overflow: 'scroll' 
+          }}
+        >
+          <Box sx={{ position: 'relative', width: '100%', maxWidth: '48rem', px: { xs: 4, md: 0 } }}>
+            <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+              <Typography sx={{ color: 'white', alignSelf: 'flex-start', pb: 2, fontWeight: 600 }}>
+                Code snippet
+              </Typography>
+              <Button
+                sx={{
+                  fontSize: '0.75rem',
+                  color: 'white',
+                  border: '1px solid',
+                  borderRadius: '0.75rem',
+                  px: 2,
+                  py: 1,
+                  opacity: isCopied ? 1 : 0.5,
+                  '&:hover': { opacity: isCopied ? 1 : 1 },
+                  cursor: isCopied ? 'wait' : 'pointer'
+                }}
                 onClick={copyToClipboard}
               >
                 {isCopied ? 'Copied!' : 'Copy to clipboard'}
-              </button>
-            </div>
+              </Button>
+            </Box>
 
             <SyntaxHighlighter wrapLines language="typescript" showLineNumbers style={vs2015}>
               {snippet}
             </SyntaxHighlighter>
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Collapse>
 
-      <div tw="mt-2 w-full text-white font-semibold">
-        <button
+      <Box sx={{ mt: 2, width: '100%', color: 'white', fontWeight: 600 }}>
+        <Button
           type="button"
-          tw="w-full text-sm text-white p-2 opacity-50 hover:opacity-100"
+          sx={{
+            width: '100%',
+            fontSize: '0.875rem',
+            color: 'white',
+            p: 2,
+            opacity: 0.5,
+            '&:hover': { opacity: 1 }
+          }}
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? `Hide Snippet` : `Show snippet`}
-          {expanded ? <ChevronUpIcon tw="inline-block ml-2" /> : <ChevronDownIcon tw="inline-block ml-2" />}
-        </button>
-      </div>
+          {expanded ? <ChevronUpIcon sx={{ display: 'inline-block', ml: 2 }} /> : <ChevronDownIcon sx={{ display: 'inline-block', ml: 2 }} />}
+        </Button>
+      </Box>
     </>
   );
 };
