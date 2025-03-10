@@ -5,14 +5,13 @@ import ExternalIcon from '../icons/ExternalIcon';
 import { useTranslation } from '../../contexts/TranslationProvider';
 
 // Material UI imports
-import { Box, Typography, Button, Stack, styled } from '@mui/material';
+import { Box, Typography, Button, Stack } from '@mui/material';
 
 export const OnboardingIntro: React.FC<{
-  flow: IOnboardingFlow;
   setFlow: (flow: IOnboardingFlow) => void;
   onClose: () => void;
   showBack: boolean;
-}> = ({ flow, setFlow, onClose, showBack }) => {
+}> = ({ setFlow, onClose, showBack }) => {
   const { t } = useTranslation();
 
   return (
@@ -166,7 +165,7 @@ export const OnboardingFlow = ({ onClose, showBack }: { onClose: () => void; sho
       className="hideScrollbar"
     >
       {flow === 'Onboarding' ? (
-        <OnboardingIntro showBack={showBack} flow={flow} setFlow={setFlowAnimated} onClose={onClose} />
+        <OnboardingIntro showBack={showBack} setFlow={setFlowAnimated} onClose={onClose} />
       ) : null}
       {flow === 'Get Wallet' ? <OnboardingGetWallets flow={flow} setFlow={setFlowAnimated} /> : null}
     </Box>

@@ -21,9 +21,11 @@ import { Box, Typography, Button, IconButton, Divider, Paper, Grid, styled, useT
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import NotInstalled from './NotInstalled';
+import { alpha } from '@mui/material/styles';
 
 const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useTranslation();
+  const theme = useTheme();
 
   return (
     <Box
@@ -33,7 +35,7 @@ const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         display: 'flex',
         justifyContent: 'space-between',
         lineHeight: 'none',
-        borderBottom: (theme) => theme.palette.mode === 'light' ? 1 : 0,
+        borderBottom: theme.palette.mode === 'light' ? 1 : 0,
         borderColor: 'divider',
       }}
     >
@@ -45,14 +47,20 @@ const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           variant="caption"
           sx={{
             mt: 1,
-            color: (theme) => theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+            color: theme.palette.mode === 'light' 
+              ? alpha(theme.palette.common.black, 0.5)
+              : alpha(theme.palette.common.white, 0.5),
           }}
         >
           {t(`You need to connect a Solana wallet.`)}
         </Typography>
       </Box>
 
-      <IconButton size="small" onClick={onClose} sx={{ position: 'absolute', top: 16, right: 16 }}>
+      <IconButton 
+        size="small" 
+        onClick={onClose} 
+        sx={{ position: 'absolute', top: 16, right: 16 }}
+      >
         <CloseIcon sx={{ width: 12, height: 12 }} />
       </IconButton>
     </Box>
@@ -140,11 +148,24 @@ const ListOfWallets: React.FC<{
 
   return (
     <>
-      <Box className="hideScrollbar" sx={{ pt: 3, pb: 8, px: 5, position: 'relative', mb: isOpen ? 7 : 0 }}>
-        <Typography variant="caption" fontWeight="600" sx={{ mt: 6 }}>
-          {list.highlightedBy === 'PreviouslyConnected' ? t(`Recently used`) : null}
-          {list.highlightedBy === 'TopAndRecommended' ? t(`Recommended wallets`) : null}
-        </Typography>
+      <Box 
+        className="hideScrollbar" 
+        sx={{ 
+          pt: 3, 
+          pb: 8, 
+          px: 5, 
+          position: 'relative', 
+          mb: isOpen ? 7 : 0,
+          overflowY: 'auto',
+          maxHeight: '70vh',
+        }}
+      >
+        {list.highlightedBy !== 'Onboarding' && (
+          <Typography variant="caption" fontWeight="600" sx={{ mt: 6 }}>
+            {list.highlightedBy === 'PreviouslyConnected' ? t(`Recently used`) : null}
+            {list.highlightedBy === 'TopAndRecommended' ? t(`Recommended wallets`) : null}
+          </Typography>
+        )}
 
         <Box>
           <Grid container spacing={2} sx={{ mt: 4, pb: 4 }} translate="no">
@@ -160,13 +181,13 @@ const ListOfWallets: React.FC<{
           <>
             <Button
               variant="text"
+              fullWidth
               sx={{
                 mt: 5,
                 display: 'flex',
-                width: '100%',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                color: (theme) => theme.palette.mode === 'light' ? 'black' : 'white',
+                color: (theme) => theme.palette.text.primary,
               }}
               onClick={onToggle}
             >
@@ -335,15 +356,22 @@ const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   useOutsideClick(contentRef, onClose);
 
-  // TODO: remove sx styling
   return (
-    <Box ref={contentRef}>
+    <Paper 
+      elevation={3}
+      sx={{
+        width: '100%',
+        maxHeight: '90vh',
+        overflow: 'hidden'
+      }}
+      ref={contentRef}
+    >
       <Header onClose={onClose} />
-      <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+      <Divider />
       <ListOfWallets list={list} onToggle={onToggle} isOpen={isOpen} />
 
       {walletModalAttachments?.footer ? <>{walletModalAttachments?.footer}</> : null}
-    </Box>
+    </Paper>
   );
 };
 

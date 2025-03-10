@@ -8,16 +8,15 @@ import WalletConnectionProvider, { IUnifiedWalletConfig } from './WalletConnecti
 import { usePrevious } from 'react-use';
 
 import { shortenAddress } from '../misc/utils';
-import ModalDialog from '../components/ModalDialog';
 import UnifiedWalletModal from '../components/UnifiedWalletModal';
 import {
   UnifiedWalletValueContext,
-  UNIFIED_WALLET_VALUE_DEFAULT_CONTEXT,
   useUnifiedWallet,
   UnifiedWalletContext,
   useUnifiedWalletContext,
 } from './UnifiedWalletContext';
 import { TranslationProvider } from './TranslationProvider';
+import { Dialog } from '@mui/material';
 
 export type IWalletProps = Omit<
   WalletContextState,
@@ -160,14 +159,13 @@ const UnifiedWalletContextProvider: React.FC<
         showModal,
         setShowModal,
         walletlistExplanation: config.walletlistExplanation,
-        theme: config.theme || 'light',
         walletAttachments: config.walletAttachments || {},
         walletModalAttachments: config.walletModalAttachments || {},
       }}
     >
-      <ModalDialog open={showModal} onClose={() => setShowModal(false)}>
+      <Dialog open={showModal} onClose={() => setShowModal(false)}>
         <UnifiedWalletModal onClose={() => setShowModal(false)} />
-      </ModalDialog>
+      </Dialog>
 
       {children}
     </UnifiedWalletContext.Provider>

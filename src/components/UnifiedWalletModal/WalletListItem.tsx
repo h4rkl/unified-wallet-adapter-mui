@@ -22,7 +22,7 @@ export const WalletIcon: FC<WalletIconProps> = ({ wallet, width = 24, height = 2
 
   if (wallet && wallet.icon && !hasError) {
     return (
-      <Box sx={{ minWidth: width, minHeight: height }}>
+      <Box sx={{ minWidth: width, minHeight: height, mr: 1.5, display: 'flex', alignItems: 'center' }}>
         <img
           width={width}
           height={height}
@@ -35,7 +35,7 @@ export const WalletIcon: FC<WalletIconProps> = ({ wallet, width = 24, height = 2
     );
   } else {
     return (
-      <Box sx={{ minWidth: width, minHeight: height }}>
+      <Box sx={{ minWidth: width, minHeight: height, mr: 1.5, display: 'flex', alignItems: 'center' }}>
         <UnknownIconSVG width={width} height={height} />
       </Box>
     );
@@ -56,26 +56,31 @@ export const WalletListItem = ({ handleClick, wallet }: WalletListItemProps) => 
     return wallet.name;
   }, [wallet?.name]);
 
+  const iconSize = isMobile() ? 24 : 30;
+
   return (
-    <li>
-      <Button onClick={handleClick} variant="text">
-        {isMobile() ? (
-          <WalletIcon wallet={wallet} width={24} height={24} />
-        ) : (
-          <WalletIcon wallet={wallet} width={30} height={30} />
-        )}
-        <Typography
-          variant="body2"
-          fontWeight="600"
-          sx={{
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {adapterName}
-        </Typography>
-      </Button>
-    </li>
+    <Button
+      onClick={handleClick}
+      fullWidth
+      sx={{
+        justifyContent: 'flex-start',
+        padding: '8px 16px',
+        borderRadius: 1,
+        textTransform: 'none',
+      }}
+    >
+      <WalletIcon wallet={wallet} width={iconSize} height={iconSize} />
+      <Typography
+        variant="body2"
+        fontWeight="600"
+        sx={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {adapterName}
+      </Typography>
+    </Button>
   );
 };
