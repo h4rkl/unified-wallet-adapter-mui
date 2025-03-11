@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, Container, Paper, Grid } from '@mui/material';
 
-import AppHeader from '../components/AppHeader/AppHeader';
-import Footer from '../components/Footer/Footer';
 import ExampleBaseOnly from '../components/examples/ExampleBaseOnly';
-import { IUnifiedTheme } from '../contexts/UnifiedWalletContext';
 import { AllLanguage, DEFAULT_LANGUAGE, LANGUAGE_LABELS, OTHER_LANGUAGES } from '../contexts/TranslationProvider/i18n';
 
 const Index = () => {
-  const [theme, setTheme] = useState<IUnifiedTheme>('dark');
   const [lang, setLang] = useState<AllLanguage>('en');
 
   return (
@@ -22,8 +18,6 @@ const Index = () => {
       }}
     >
       <Box>
-        <AppHeader />
-
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -52,9 +46,7 @@ const Index = () => {
               </Typography>
 
               <Typography
-                variant="subtitle1"
                 sx={{
-                  color: 'text.secondary',
                   mt: 2,
                   px: 2,
                 }}
@@ -71,8 +63,6 @@ const Index = () => {
                   <Typography
                     variant="h6"
                     sx={{
-                      borderBottom: '1px solid',
-                      borderColor: 'divider',
                       pb: 1,
                       mb: 2,
                       fontWeight: 600,
@@ -113,7 +103,6 @@ const Index = () => {
                     variant="h6"
                     sx={{
                       borderBottom: '1px solid',
-                      borderColor: 'divider',
                       pb: 1,
                       mb: 2,
                       fontWeight: 600,
@@ -156,22 +145,16 @@ const Index = () => {
                 p: 4,
                 width: '100%',
                 borderRadius: 2,
-                bgcolor: 'background.paper',
               }}
             >
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Base with Wallet Standard only
               </Typography>
-              <Box sx={{ mt: 3 }}>
-                <ExampleBaseOnly theme={theme} lang={lang} />
-              </Box>
+              <Box sx={{ mt: 3 }}>{/* <ExampleBaseOnly lang={lang} /> */}</Box>
             </Paper>
-
           </Box>
         </Container>
       </Box>
-
-      <Footer />
     </Box>
   );
 };

@@ -5,11 +5,13 @@ import { IUnifiedWalletConfig, IWalletNotification } from '../contexts/WalletCon
 
 // Custom notification component that uses Material UI components
 const NotificationManager = () => {
-  const [notifications, setNotifications] = useState<{
-    open: boolean;
-    message: React.ReactNode;
-    severity: 'success' | 'info' | 'warning' | 'error';
-  }[]>([]);
+  const [notifications, setNotifications] = useState<
+    {
+      open: boolean;
+      message: React.ReactNode;
+      severity: 'success' | 'info' | 'warning' | 'error';
+    }[]
+  >([]);
 
   const showNotification = (message: React.ReactNode, severity: 'success' | 'info' | 'warning' | 'error') => {
     const newNotification = {
@@ -53,11 +55,7 @@ const NotificationManager = () => {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           sx={{ mb: index * 8 }} // Stack notifications
         >
-          <Alert 
-            severity={notification.severity} 
-            onClose={() => handleClose(index)}
-            sx={{ width: '100%' }}
-          >
+          <Alert severity={notification.severity} onClose={() => handleClose(index)} sx={{ width: '100%' }}>
             {notification.message}
           </Alert>
         </Snackbar>
@@ -94,10 +92,8 @@ const WalletNotification: IUnifiedWalletConfig['notificationCallback'] = {
     showNotification.success(
       <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
         <AlertTitle>Wallet Connected</AlertTitle>
-        <Typography sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
-          {`Connected to wallet ${props.shortAddress}`}
-        </Typography>
-      </Box>
+        <Typography sx={{ fontSize: '0.75rem' }}>{`Connected to wallet ${props.shortAddress}`}</Typography>
+      </Box>,
     );
   },
   onConnecting: (props: IWalletNotification) => {
@@ -105,17 +101,15 @@ const WalletNotification: IUnifiedWalletConfig['notificationCallback'] = {
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <AlertTitle>Connecting</AlertTitle>
         <Typography>Connecting to {props.walletName}</Typography>
-      </Box>
+      </Box>,
     );
   },
   onDisconnect: (props: IWalletNotification) => {
     showNotification.info(
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <AlertTitle>Disconnected</AlertTitle>
-        <Typography sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
-          {`Disconnected from wallet ${props.shortAddress}`}
-        </Typography>
-      </Box>
+        <Typography sx={{ fontSize: '0.75rem' }}>{`Disconnected from wallet ${props.shortAddress}`}</Typography>
+      </Box>,
     );
   },
   onNotInstalled: (props: IWalletNotification) => {
@@ -124,18 +118,18 @@ const WalletNotification: IUnifiedWalletConfig['notificationCallback'] = {
         <AlertTitle>{props.walletName} Wallet is not installed</AlertTitle>
         <Typography>
           {`Please go to the provider`}{' '}
-          <Box 
-            component="a" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            sx={{ textDecoration: 'underline', fontWeight: 700 }} 
+          <Box
+            component="a"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{ textDecoration: 'underline', fontWeight: 700 }}
             href={props.metadata.url}
           >
             {`website`}
           </Box>{' '}
           {`to download.`}
         </Typography>
-      </Box>
+      </Box>,
     );
   },
 };

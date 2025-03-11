@@ -1,27 +1,18 @@
-import { Adapter, WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { useToggle } from 'react-use';
-
-import { WalletListItem } from './WalletListItem';
-
-import Collapse from '../Collapse';
-
-import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
-import { useTranslation } from '../../contexts/TranslationProvider';
-import { useUnifiedWallet, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
-import { usePreviouslyConnected } from '../../contexts/WalletConnectionProvider/previouslyConnectedProvider';
-import ChevronDownIcon from '../icons/ChevronDownIcon';
-import ChevronUpIcon from '../icons/ChevronUpIcon';
-import CloseIcon from '../icons/CloseIcon';
-import { isMobile, useOutsideClick } from '../../misc/utils';
-import { OnboardingFlow } from './Onboarding';
-
-// Material UI imports
-import { Box, Typography, Button, IconButton, Divider, Paper, Grid, styled, useTheme } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import NotInstalled from './NotInstalled';
-import { alpha } from '@mui/material/styles';
+import { Adapter, WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
+import { Box, Typography, Button, IconButton, Divider, Paper, Grid, useTheme } from '@mui/material';
+import { OnboardingFlow } from './Onboarding';
+import { WalletListItem } from './WalletListItem';
+import { alpha, ThemeProvider } from '@mui/material/styles';
+import { useOutsideClick } from '../../misc/utils';
+import { usePreviouslyConnected } from '../../contexts/WalletConnectionProvider/previouslyConnectedProvider';
+import { useToggle } from 'react-use';
+import { useTranslation } from '../../contexts/TranslationProvider';
+import { useUnifiedWallet, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
 
 const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useTranslation();
@@ -35,32 +26,23 @@ const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         display: 'flex',
         justifyContent: 'space-between',
         lineHeight: 'none',
-        borderBottom: theme.palette.mode === 'light' ? 1 : 0,
-        borderColor: 'divider',
       }}
     >
       <Box>
-        <Typography variant="subtitle1" fontWeight="600">
+        <Typography>
           {t(`Connect Wallet`)}
         </Typography>
         <Typography
           variant="caption"
           sx={{
             mt: 1,
-            color: theme.palette.mode === 'light' 
-              ? alpha(theme.palette.common.black, 0.5)
-              : alpha(theme.palette.common.white, 0.5),
           }}
         >
           {t(`You need to connect a Solana wallet.`)}
         </Typography>
       </Box>
 
-      <IconButton 
-        size="small" 
-        onClick={onClose} 
-        sx={{ position: 'absolute', top: 16, right: 16 }}
-      >
+      <IconButton size="small" onClick={onClose} sx={{ position: 'absolute', top: 16, right: 16 }}>
         <CloseIcon sx={{ width: 12, height: 12 }} />
       </IconButton>
     </Box>
@@ -148,13 +130,13 @@ const ListOfWallets: React.FC<{
 
   return (
     <>
-      <Box 
-        className="hideScrollbar" 
-        sx={{ 
-          pt: 3, 
-          pb: 8, 
-          px: 5, 
-          position: 'relative', 
+      <Box
+        className="hideScrollbar"
+        sx={{
+          pt: 3,
+          pb: 8,
+          px: 5,
+          position: 'relative',
           mb: isOpen ? 7 : 0,
           overflowY: 'auto',
           maxHeight: '70vh',
@@ -357,12 +339,13 @@ const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
   useOutsideClick(contentRef, onClose);
 
   return (
-    <Paper 
+    <Paper
       elevation={3}
       sx={{
         width: '100%',
         maxHeight: '90vh',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        minWidth: '500px',
       }}
       ref={contentRef}
     >

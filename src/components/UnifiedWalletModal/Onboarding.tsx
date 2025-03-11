@@ -18,15 +18,23 @@ export const OnboardingIntro: React.FC<{
     <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 10 }}>
       <img src={'https://unified.jup.ag/new_user_onboarding.png'} width={160} height={160} alt="Onboarding" />
 
-      <Box sx={{ mt: 4, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+      <Box
+        sx={{
+          mt: 4,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
+        }}
+      >
         <Typography variant="h6" fontWeight="600">
           {t(`New here?`)}
         </Typography>
-        <Typography 
-          variant="body2" 
-          sx={{ 
-            mt: 3, 
-            color: (theme) => theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.5)' 
+        <Typography
+          variant="body2"
+          sx={{
+            mt: 3,
           }}
         >
           {t(`Welcome to DeFi! Create a crypto wallet to get started!`)}
@@ -34,21 +42,16 @@ export const OnboardingIntro: React.FC<{
       </Box>
 
       <Box sx={{ mt: 6, width: '100%' }}>
-        <Button
-          onClick={() => setFlow('Get Wallet')}
-        >
-          {t(`Get Started`)}
-        </Button>
+        <Button onClick={() => setFlow('Get Wallet')}>{t(`Get Started`)}</Button>
       </Box>
-      
+
       {showBack && (
         <Button
           variant="text"
-          sx={{ 
+          sx={{
             mt: 3,
             fontSize: '0.75rem',
             fontWeight: '600',
-            color: (theme) =>  theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
           }}
           onClick={() => onClose()}
         >
@@ -70,33 +73,25 @@ export const OnboardingGetWallets: React.FC<{ flow: IOnboardingFlow; setFlow: (f
       <Typography variant="body1" fontWeight="600">
         {t(`Popular wallets to get started`)}
       </Typography>
-      
+
       <Stack spacing={2} sx={{ mt: 4, width: '100%' }}>
         {HARDCODED_WALLET_STANDARDS.map((item, idx) => (
-          <Button
-            key={idx}
-            component="a"
-            href={item.url}
-            target="_blank"
-          >
+          <Button key={idx} component="a" href={item.url} target="_blank">
             <img src={item.icon} width={20} height={20} alt={item.name} />
             <span>{item.name}</span>
           </Button>
         ))}
 
-        <Button
-          component="a"
-          href={'https://station.jup.ag/partners?category=Wallets'}
-          target="_blank"
-        >
-          <Box sx={{ 
-            width: 20, 
-            height: 20, 
-            display: 'flex', 
-            alignItems: 'center', 
-            padding: '2px',
-            color: (theme) => theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.3)'
-          }}>
+        <Button component="a" href={'https://station.jup.ag/partners?category=Wallets'} target="_blank">
+          <Box
+            sx={{
+              width: 20,
+              height: 20,
+              display: 'flex',
+              alignItems: 'center',
+              padding: '2px',
+            }}
+          >
             <ExternalIcon width={16} height={16} />
           </Box>
           <span>{t(`More wallets`)}</span>
@@ -108,19 +103,17 @@ export const OnboardingGetWallets: React.FC<{ flow: IOnboardingFlow; setFlow: (f
         align="center"
         sx={{
           mt: 3,
-          color: (theme) => theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
         }}
       >
         {t(`Once installed, refresh this page`)}
       </Typography>
-      
+
       <Button
         variant="text"
-        sx={{ 
+        sx={{
           mt: 3,
           fontSize: '0.75rem',
           fontWeight: '600',
-          color: (theme) => theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)'
         }}
         onClick={() => setFlow('Onboarding')}
       >
@@ -155,12 +148,12 @@ export const OnboardingFlow = ({ onClose, showBack }: { onClose: () => void; sho
         overflowY: 'scroll',
         '@keyframes fadeIn': {
           '0%': { opacity: 0 },
-          '100%': { opacity: 1 }
+          '100%': { opacity: 1 },
         },
         '@keyframes fadeOut': {
           '0%': { opacity: 1 },
-          '100%': { opacity: 0 }
-        }
+          '100%': { opacity: 0 },
+        },
       }}
       className="hideScrollbar"
     >

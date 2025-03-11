@@ -1,13 +1,10 @@
 import { UnifiedWalletProvider } from '../../contexts/UnifiedWalletProvider';
 import { UnifiedWalletButton } from '../UnifiedWalletButton';
 import WalletNotification from '../WalletNotification';
-import CodeBlocks from '../CodeBlocks/CodeBlocks';
 import { Cluster } from '@solana/web3.js';
 import { useMemo } from 'react';
 import { AllLanguage } from '../../contexts/TranslationProvider/i18n';
 import { Box, Theme } from '@mui/material';
-
-const HARDCODED_WALLET_CODEBLOCK = `wallets={[]}`;
 
 const ExampleBaseOnly: React.FC<{ theme: Theme; lang: AllLanguage }> = ({ theme, lang }) => {
   const params: Omit<Parameters<typeof UnifiedWalletProvider>[0], 'children'> = useMemo(
@@ -38,13 +35,6 @@ const ExampleBaseOnly: React.FC<{ theme: Theme; lang: AllLanguage }> = ({ theme,
       <UnifiedWalletProvider {...params}>
         <UnifiedWalletButton />
       </UnifiedWalletProvider>
-      <Box sx={{ width: '100%', overflowX: 'auto' }}>
-        <CodeBlocks
-          params={params}
-          unparsedWalletDeclarationString={''}
-          unparsedWalletPropsString={HARDCODED_WALLET_CODEBLOCK}
-        />
-      </Box>
     </Box>
   );
 };

@@ -56,16 +56,7 @@ export const UnifiedWalletButton: React.FC<{
             <Box onClick={handleClick}>{overrideContent}</Box>
           ) : (
             <Button
-              type="button"
-              sx={{
-                fontSize: '0.75rem',
-                py: 1.5,
-                px: 2.5,
-                fontWeight: 600,
-                cursor: 'pointer',
-                textAlign: 'center',
-                width: 'auto',
-              }}
+              variant="contained"
               className={buttonClassName}
               onClick={handleClick}
             >

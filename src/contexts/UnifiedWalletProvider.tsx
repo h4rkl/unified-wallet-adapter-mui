@@ -16,7 +16,8 @@ import {
   useUnifiedWalletContext,
 } from './UnifiedWalletContext';
 import { TranslationProvider } from './TranslationProvider';
-import { Dialog } from '@mui/material';
+import { createTheme, Dialog } from '@mui/material';
+import { CssVarsThemeOptions, ThemeProvider } from '@mui/material/styles';
 
 export type IWalletProps = Omit<
   WalletContextState,
@@ -181,14 +182,19 @@ const UnifiedWalletProvider = ({
   config: IUnifiedWalletConfig;
   children: React.ReactNode;
 }) => {
+  console.log("*****************", config.theme);
+  
+  const theme = config.theme || createTheme();
   return (
-    <TranslationProvider lang={config.lang}>
-      <WalletConnectionProvider wallets={wallets} config={config}>
-        <UnifiedWalletValueProvider>
-          <UnifiedWalletContextProvider config={config}>{children}</UnifiedWalletContextProvider>
-        </UnifiedWalletValueProvider>
-      </WalletConnectionProvider>
-    </TranslationProvider>
+    <ThemeProvider theme={theme}>
+      <TranslationProvider lang={config.lang}>
+        <WalletConnectionProvider wallets={wallets} config={config}>
+          <UnifiedWalletValueProvider>
+            <UnifiedWalletContextProvider config={config}>{children}</UnifiedWalletContextProvider>
+          </UnifiedWalletValueProvider>
+        </WalletConnectionProvider>
+      </TranslationProvider>
+    </ThemeProvider>
   );
 };
 
