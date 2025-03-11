@@ -342,6 +342,7 @@ const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
         maxHeight: '90vh',
         overflow: 'hidden',
         minWidth: '500px',
+        px: 2,
       }}
       ref={contentRef}
     >

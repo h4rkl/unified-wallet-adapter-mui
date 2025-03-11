@@ -8,6 +8,7 @@ import { UnifiedWalletButton } from '../components/UnifiedWalletButton';
 import WalletNotification, { NotificationManager } from '../components/WalletNotification';
 import PreviewFunctionality from '../components/PreviewFunctionality';
 import Collapse from '../components/Collapse';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 const Index = () => {
   const [lang, setLang] = useState<AllLanguage>('en');
@@ -78,7 +79,7 @@ const Index = () => {
                     mb: 2,
                   }}
                 >
-                  Unified Wallet Kit
+                  MUI Unified Wallet Kit
                 </Typography>
 
                 <Typography
@@ -87,9 +88,9 @@ const Index = () => {
                     px: 2,
                   }}
                 >
-                  Unified Wallet Kit is an open-sourced, the Swiss Army Knife wallet adapter.
+                  MUI Unified Wallet Kit is a fork of the Unified Wallet Kit with built in MUI styles.
                   <br />
-                  Easiest integration for devs, Best experience for users.
+                  Because we dispensed with inline styles in the early 1990's.
                 </Typography>
               </Box>
 
@@ -239,29 +240,9 @@ const Index = () => {
                         <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2 }}>
                           Wallet Preview
                         </Typography>
-                        <PreviewFunctionality 
-                          title="Wallet Details"
-                          walletProps={{
-                            wallet: null,
-                            publicKey: null,
-                            select: () => {},
-                            wallets: [],
-                            connect: () => Promise.resolve(),
-                            signIn: () => Promise.resolve({
-                              account: {
-                                publicKey: new Uint8Array(),
-                                address: '',
-                                chains: [],
-                                features: []
-                              },
-                              signature: new Uint8Array(),
-                              signedMessage: new Uint8Array()
-                            }),
-                            connecting: false,
-                            connected: false,
-                            disconnect: async () => {}
-                          }}
-                        />
+                        <UnifiedWalletProvider wallets={[]} config={walletConfig}>
+                          <WalletPreviewWithDetails />
+                        </UnifiedWalletProvider>
                       </Paper>
                     </Grid>
                   </Grid>
@@ -273,6 +254,31 @@ const Index = () => {
         <NotificationManager />
       </Box>
     </ThemeProvider>
+  );
+};
+
+// Add this component to use the wallet context and display details
+const WalletPreviewWithDetails = () => {
+  const walletContext = useWallet();
+  
+  return (
+    <>
+      <UnifiedWalletButton />
+      {walletContext.connected ? (
+        <Box sx={{ mt: 2 }}>
+          <PreviewFunctionality 
+            title="Wallet Details"
+            walletProps={walletContext}
+          />
+        </Box>
+      ) : (
+        <Box sx={{ mt: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
+          <Typography variant="body2" color="text.secondary">
+            Connect a wallet to see details
+          </Typography>
+        </Box>
+      )}
+    </>
   );
 };
 

@@ -2,7 +2,15 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import { nodeExternals } from 'rollup-plugin-node-externals';
-import pkg from './package.json' assert { type: 'json' };
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Read package.json manually
+const pkg = JSON.parse(readFileSync(resolve(__dirname, './package.json'), 'utf8'));
 
 const config = {
   name: 'UnifiedWallet',
