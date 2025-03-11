@@ -1,3 +1,4 @@
+import React from 'react';
 import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useWallet, Wallet, WalletContextState } from '@solana/wallet-adapter-react';
@@ -17,7 +18,7 @@ import {
 } from './UnifiedWalletContext';
 import { TranslationProvider } from './TranslationProvider';
 import { createTheme, Dialog } from '@mui/material';
-import { CssVarsThemeOptions, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 
 export type IWalletProps = Omit<
   WalletContextState,
@@ -164,7 +165,7 @@ const UnifiedWalletContextProvider: React.FC<
         walletModalAttachments: config.walletModalAttachments || {},
       }}
     >
-      <Dialog open={showModal} onClose={() => setShowModal(false)} >
+      <Dialog open={showModal} onClose={() => setShowModal(false)}>
         <UnifiedWalletModal onClose={() => setShowModal(false)} />
       </Dialog>
 
@@ -182,18 +183,18 @@ const UnifiedWalletProvider = ({
   config: IUnifiedWalletConfig;
   children: React.ReactNode;
 }) => {
-  
   const theme = config.theme || createTheme();
+
   return (
-    <ThemeProvider theme={theme}>
-      <TranslationProvider lang={config.lang}>
-        <WalletConnectionProvider wallets={wallets} config={config}>
-          <UnifiedWalletValueProvider>
-            <UnifiedWalletContextProvider config={config}>{children}</UnifiedWalletContextProvider>
-          </UnifiedWalletValueProvider>
-        </WalletConnectionProvider>
-      </TranslationProvider>
-    </ThemeProvider>
+      <MuiThemeProvider theme={theme}>
+        <TranslationProvider lang={config.lang}>
+          <WalletConnectionProvider wallets={wallets} config={config}>
+            <UnifiedWalletValueProvider>
+              <UnifiedWalletContextProvider config={config}>{children}</UnifiedWalletContextProvider>
+            </UnifiedWalletValueProvider>
+          </WalletConnectionProvider>
+        </TranslationProvider>
+      </MuiThemeProvider>
   );
 };
 
