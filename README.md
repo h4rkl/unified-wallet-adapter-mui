@@ -1,58 +1,30 @@
-# Unified Wallet Kit
+# Unified Wallet Kit MUI
 
 <img src="public/unified-wallet-kit-demo.gif" />
 
-Unified Wallet Kit is an open-sourced, Swiss Army Knife wallet adapter, striving for the best wallet integration experience for developers, and best wallet experience for your users.
+Unified Wallet Kit MUI is a Material UI (v6) implementation of `@jup-ag/wallet-adapter` with MUI styles over tailwind.
 
-Along with [Terminal](https://terminal.jup.ag), it's the fastest way to get started on Solana.
-
-Used by Jupiter and Meteora.
-
-NPM: https://www.npmjs.com/package/@jup-ag/wallet-adapter
+NPM: https://www.npmjs.com/package/@harkl/unified-wallet-adapter-mui
 
 ## Motives
 
-Why not just use the existing wallet adapters?
-
-- To bootstrap a dApp, we always find ourself doing the same thing over and over again, such as:
-  - Notification when wallets are selected, connecting, connected, disconnected.
-  - Auto reconnect to the last connected wallet
-  - Mobile-first, responsive design
-  - Themeing support
-  - Internationalization (i18n) support
-  - New user onboarding
-- Built on-top of `@solana/wallet-adapter-base`, `@solana/wallet-adapter-react` and `@solana-mobile/wallet-adapter-mobile`, you are always welcomed to onboard or depart.
-
-## Philosophy
-
-- Set a sensible defaults
-- Lightweight, easy to adopt, fast to access
-- Extensible wallets, with a BYOW (Bring your own wallets) approach
-- Better onboarding experience for new users
+- `@jup-ag/wallet-adapter` provides a great user experience 
+- not everyone loves tailwind
+- [legendsofsol.com](https://legendsofsol.com) uses MUI under the hood and needed a good wallet adapter
 
 ## Core features
 
-- [x] Main esm bundle at 94Kb (~20Kb gzipped)
+- [x] Fully integrated with Material UI v6 components
 - [x] Built-in Wallet Standard, Mobile Wallet Adapter support
 - [x] Abstracted wallet adapter, with a BYOW (Bring your own wallets) approach
-- [x] Mobile responsive
-- [x] Notification plug-in
-- [x] Internationalization (i18n)
-
-  - More contributions required for more languages
-  - Currently generated from Copilot
-  - [Help contribute](https://github.com/TeamRaccoons/Unified-Wallet-Kit/blob/main/src/contexts/TranslationProvider/i18n.ts)
-
-- [x] New user onboarding [on Jupiter Station](https://station.jup.ag/partners?category=Wallets)
-  - PR welcomed on [Jupiter Station Github](https://github.com/jup-ag/space-station/)
-- [x] Theming
-  - Light, Dark, Jupiter
-  - More thmes coming soon
-- [x] Pluralization for i18n
+- [x] Mobile responsive design
+- [x] MUI core notification system integration
+- [x] Internationalization (i18n) with translation support
+- [x] Theming - Light and Dark modes using native MUI theming
 
 ## Getting Started
 
-- `pnpm i @jup-ag/wallet-adapter`
+- `npm i @harkl/unified-wallet-adapter-mui`
 - Wrap your app with `<UnifiedWalletProvider />` and pass in as little to as many wallets you would like to support.
 - Below example is `ExampleBaseOnly.tsx`
 
@@ -61,6 +33,7 @@ const ExampleBaseOnly = () => {
   return (
     <UnifiedWalletProvider
       wallets={[]}
+      theme={<your-mui-theme>}
       config={{
         autoConnect: false,
         env: 'mainnet-beta',
@@ -84,44 +57,22 @@ const ExampleBaseOnly = () => {
 export default ExampleBaseOnly;
 ```
 
-- More example can be found on the demo page, or in `src/components/examples`
+## Material UI Integration
+
+This package is built with Material UI v6 components to seamlessly integrate with your Material UI applications. All components use the MUI styling system and theme provider for consistent styling across your application.
+
+## Components
+
+- `UnifiedWalletProvider` - Main context provider that manages wallet state
+- `UnifiedWalletButton` - Button component to connect/disconnect wallet
+- `CurrentUserBadge` - Display currently connected wallet with address
+- `PreviewFunctionality` - Component to preview wallet functionality
 
 ## More features
 
-- [x] Wallet attachment
-  - Target specific wallet and attach custom element to it
-  - <img src="public/features/wallet-atachments.png" width="200" />
+All other features and philosophies are inline with the parent repo at `@jup-ag/wallet-adapter`.
 
-```tsx
-config={{
-  walletAttachments: { 
-    'Phantom': {
-      attachment: <div tw="text-xs rounded-md bg-red-500 px-2 mx-2 text-center">Auto Confirm</div>
-    } 
-  }
-}}
-```
+## Support
 
-## FAQs
+Support @harkl by getting an upgradable Legends of SOL NFT with its own custom traits at [Tensor](https://www.tensor.trade/trade/legends_of_sol) or buying some [$LEGEND](https://app.meteora.ag/pools/wGE6ab1eDxT2pJenpLkF8SkHLxkqMP2rgdnviZnoQCN). All Legends NFTs can be customised at [legendsofsol.com](https://legendsofsol.com).
 
-- Why not ship with all wallets?
-
-  - Unnecessary bloat and bundle size on your dApp
-  - It's not sensible to always maintain an ever-growing list of wallets
-  - Many existing wallets are not well maintained, often with unpatched security, or abandoned development
-  - Lack of users
-  - Does not support Versioned Transaction, severely limiting the adoption of many innovative functionalities of dApp.
-  - And hopefully, a gradually disappearing list of installed wallet adapter, as they migrate to wallet-standard
-
-- Why not ship with notification by default
-
-  - Existing dApp might already have their own notification system
-  - Checkout `src/components/examples/WalletNotification.tsx` for an example of how to use the notification system
-
-- How to add/develop a new wallet?
-  - We recommend new developer develops Wallets that comforms to WalletStandard or MWA, to get instant discoverability.
-  - https://github.com/solana-labs/wallet-adapter/blob/master/WALLET.md
-
-### #By Raccoons
-
-<img src="public/raccoons_wallet.jpg" width="200" />
