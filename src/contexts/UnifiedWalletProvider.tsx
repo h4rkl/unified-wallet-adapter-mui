@@ -17,8 +17,7 @@ import {
   useUnifiedWalletContext,
 } from './UnifiedWalletContext';
 import { TranslationProvider } from './TranslationProvider';
-import { createTheme, Dialog } from '@mui/material';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, createTheme, Dialog } from '@mui/material';
 
 export type IWalletProps = Omit<
   WalletContextState,
@@ -186,7 +185,7 @@ const UnifiedWalletProvider = ({
   const theme = config.theme || createTheme();
 
   return (
-      <MuiThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
         <TranslationProvider lang={config.lang}>
           <WalletConnectionProvider wallets={wallets} config={config}>
             <UnifiedWalletValueProvider>
@@ -194,7 +193,7 @@ const UnifiedWalletProvider = ({
             </UnifiedWalletValueProvider>
           </WalletConnectionProvider>
         </TranslationProvider>
-      </MuiThemeProvider>
+      </ThemeProvider>
   );
 };
 

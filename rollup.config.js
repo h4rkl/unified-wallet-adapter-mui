@@ -39,8 +39,7 @@ export default {
   ],
   plugins: [
     nodeExternals({
-      // Specificially bundle react-use in
-      exclude: /^react-use/,
+      exclude: [/^react-use/, /^@mui\/material/, /^@mui\/system/, /^@mui\/icons-material/],
     }),
 
     nodeResolve({ extensions: config.extensions }),

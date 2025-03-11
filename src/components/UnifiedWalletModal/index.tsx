@@ -1,7 +1,5 @@
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Close, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import NotInstalled from './NotInstalled';
 import { Adapter, WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
 import { Box, Typography, Button, IconButton, Divider, Paper, Grid } from '@mui/material';
@@ -26,9 +24,7 @@ const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       }}
     >
       <Box>
-        <Typography sx={{ fontWeight: 600 }}>
-          {t(`Connect Wallet`)}
-        </Typography>
+        <Typography sx={{ fontWeight: 600 }}>{t(`Connect Wallet`)}</Typography>
         <Typography
           variant="caption"
           sx={{
@@ -40,7 +36,7 @@ const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       </Box>
 
       <IconButton size="small" onClick={onClose} sx={{ position: 'absolute', top: 16, right: 16 }}>
-        <CloseIcon sx={{ width: 16, height: 16, fill: (theme) => theme.palette.text.primary }} />
+        <Close sx={{ width: 16, height: 16, fill: (theme) => theme.palette.text.primary }} />
       </IconButton>
     </Box>
   );
@@ -173,7 +169,11 @@ const ListOfWallets: React.FC<{
               <Typography variant="caption" fontWeight="600">
                 {t(`More wallets`)}
               </Typography>
-              {isOpen ? <KeyboardArrowUpIcon sx={{ fill: (theme) => theme.palette.text.primary }} /> : <KeyboardArrowDownIcon sx={{ fill: (theme) => theme.palette.text.primary }} />}
+              {isOpen ? (
+                <KeyboardArrowUp sx={{ fill: (theme) => theme.palette.text.primary }} />
+              ) : (
+                <KeyboardArrowDown sx={{ fill: (theme) => theme.palette.text.primary }} />
+              )}
             </Button>
 
             {isOpen && renderWalletList}
