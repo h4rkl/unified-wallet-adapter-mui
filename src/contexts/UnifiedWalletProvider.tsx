@@ -164,7 +164,7 @@ const UnifiedWalletContextProvider: React.FC<
         walletModalAttachments: config.walletModalAttachments || {},
       }}
     >
-      <Dialog open={showModal} onClose={() => setShowModal(false)}>
+      <Dialog open={showModal} onClose={() => setShowModal(false)} >
         <UnifiedWalletModal onClose={() => setShowModal(false)} />
       </Dialog>
 
@@ -182,7 +182,6 @@ const UnifiedWalletProvider = ({
   config: IUnifiedWalletConfig;
   children: React.ReactNode;
 }) => {
-  console.log("*****************", config.theme);
   
   const theme = config.theme || createTheme();
   return (

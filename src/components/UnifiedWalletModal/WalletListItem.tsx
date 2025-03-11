@@ -62,17 +62,16 @@ export const WalletListItem = ({ handleClick, wallet }: WalletListItemProps) => 
     <Button
       onClick={handleClick}
       fullWidth
+      variant="outlined"
       sx={{
         justifyContent: 'flex-start',
         padding: '8px 16px',
-        borderRadius: 1,
         textTransform: 'none',
       }}
     >
       <WalletIcon wallet={wallet} width={iconSize} height={iconSize} />
       <Typography
         variant="body2"
-        fontWeight="600"
         sx={{
           overflow: 'hidden',
           textOverflow: 'ellipsis',

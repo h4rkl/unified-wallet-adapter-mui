@@ -4,10 +4,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import NotInstalled from './NotInstalled';
 import { Adapter, WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
-import { Box, Typography, Button, IconButton, Divider, Paper, Grid, useTheme } from '@mui/material';
+import { Box, Typography, Button, IconButton, Divider, Paper, Grid } from '@mui/material';
 import { OnboardingFlow } from './Onboarding';
 import { WalletListItem } from './WalletListItem';
-import { alpha, ThemeProvider } from '@mui/material/styles';
 import { useOutsideClick } from '../../misc/utils';
 import { usePreviouslyConnected } from '../../contexts/WalletConnectionProvider/previouslyConnectedProvider';
 import { useToggle } from 'react-use';
@@ -16,20 +15,18 @@ import { useUnifiedWallet, useUnifiedWalletContext } from '../../contexts/Unifie
 
 const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useTranslation();
-  const theme = useTheme();
 
   return (
     <Box
       sx={{
-        px: 5,
-        py: 6,
+        py: 3,
         display: 'flex',
         justifyContent: 'space-between',
         lineHeight: 'none',
       }}
     >
       <Box>
-        <Typography>
+        <Typography sx={{ fontWeight: 600 }}>
           {t(`Connect Wallet`)}
         </Typography>
         <Typography
@@ -43,7 +40,7 @@ const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       </Box>
 
       <IconButton size="small" onClick={onClose} sx={{ position: 'absolute', top: 16, right: 16 }}>
-        <CloseIcon sx={{ width: 12, height: 12 }} />
+        <CloseIcon sx={{ width: 16, height: 16, fill: (theme) => theme.palette.text.primary }} />
       </IconButton>
     </Box>
   );
@@ -135,7 +132,6 @@ const ListOfWallets: React.FC<{
         sx={{
           pt: 3,
           pb: 8,
-          px: 5,
           position: 'relative',
           mb: isOpen ? 7 : 0,
           overflowY: 'auto',
@@ -170,13 +166,14 @@ const ListOfWallets: React.FC<{
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 color: (theme) => theme.palette.text.primary,
+                borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
               }}
               onClick={onToggle}
             >
               <Typography variant="caption" fontWeight="600">
                 {t(`More wallets`)}
               </Typography>
-              {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+              {isOpen ? <KeyboardArrowUpIcon sx={{ fill: (theme) => theme.palette.text.primary }} /> : <KeyboardArrowDownIcon sx={{ fill: (theme) => theme.palette.text.primary }} />}
             </Button>
 
             {isOpen && renderWalletList}
@@ -339,8 +336,7 @@ const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
   useOutsideClick(contentRef, onClose);
 
   return (
-    <Paper
-      elevation={3}
+    <Box
       sx={{
         width: '100%',
         maxHeight: '90vh',
@@ -354,7 +350,7 @@ const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
       <ListOfWallets list={list} onToggle={onToggle} isOpen={isOpen} />
 
       {walletModalAttachments?.footer ? <>{walletModalAttachments?.footer}</> : null}
-    </Paper>
+    </Box>
   );
 };
 

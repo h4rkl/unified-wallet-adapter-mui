@@ -16,7 +16,6 @@ export const CurrentUserBadge: React.FC<{ onClick?: () => void; className?: stri
       sx={{
         display: 'flex',
         alignItems: 'center',
-        borderRadius: '16px',
         py: 1.5,
         px: 2.5,
         fontSize: '0.75rem',
