@@ -18,6 +18,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <meta charSet="utf-8" />
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
           <link rel="icon" href="/favicon-96x96.png" />
           <meta name="theme-color" content="#103145" />
 
