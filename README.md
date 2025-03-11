@@ -1,6 +1,6 @@
 # Unified Wallet Kit MUI
 
-![Demo Video](public/mui-jup.mp4)
+![Demo Video](https://raw.githubusercontent.com/your-username/your-repo/main/public/mui-jup.mp4)
 
 Unified Wallet Kit MUI is a Material UI (v6) implementation of `@jup-ag/wallet-adapter` with MUI styles over tailwind.
 
