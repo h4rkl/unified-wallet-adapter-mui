@@ -1,5 +1,5 @@
 {
-  "name": "@legends-of-sol/unified-wallet-adapter-mui",
+  "name": "@harkl/unified-wallet-adapter-mui",
   "version": "0.2.2",
   "license": "MIT",
   "main": "dist/components.esm.js",
@@ -14,12 +14,17 @@
     "type-check": "tsc --noEmit",
     "type-check:watch": "pnpm type-check -- --watch",
     "build:types": "tsc --noEmit false --emitDeclarationOnly --outDir dist/types",
-    "build:js": "rollup -c",
+    "build:js": "npx rollup -c",
     "build-lib": "pnpm build:types && pnpm build:js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "serve": "npx serve public"
+    "serve": "npx serve public",
+    "prepare": "pnpm build-lib",
+    "prepublishOnly": "pnpm type-check",
+    "version": "pnpm build-lib",
+    "postversion": "git push && git push --tags",
+    "publish": "npm publish --access public"
   },
   "peerDependencies": {
     "@emotion/react": "^11.10.5",
