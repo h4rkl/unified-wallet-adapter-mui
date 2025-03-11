@@ -1,6 +1,6 @@
 {
   "name": "@harkl/unified-wallet-adapter-mui",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "license": "MIT",
   "main": "dist/components.esm.js",
   "module": "dist/components.esm.js",
