@@ -27,8 +27,11 @@
     "publish": "npm publish --access public"
   },
   "peerDependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
+    "@emotion/react": ">=11.10.5",
+    "@emotion/styled": ">=11.10.5",
+    "@mui/icons-material": ">=6.4.7",
+    "@mui/material": ">=6.4.7",
+    "@mui/system": ">=6.4.7",
     "@reown/appkit": ">=1.6.0",
     "@reown/appkit-adapter-solana": ">=1.6.0",
     "@reown/appkit-wallet-button": ">=1.6.0",
@@ -40,9 +43,6 @@
   "dependencies": {
     "@solana-mobile/wallet-adapter-mobile": "^2.0.0",
     "@solana/wallet-adapter-base": "0.9.23",
-    "@mui/icons-material": "^6.4.7",
-    "@mui/material": "^6.4.7",
-    "@mui/system": "^6.4.7",
     "@solana/wallet-adapter-react": "0.15.35",
     "react-use": ">=17.2.4"
   },
