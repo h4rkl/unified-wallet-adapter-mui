@@ -233,7 +233,7 @@ const sortByPrecedence = (walletPrecedence: WalletName[]) => (a: Adapter, b: Ada
   return 0;
 };
 
-const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
+export const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
   const { wallets } = useUnifiedWallet();
   const { walletPrecedence, walletModalAttachments } = useUnifiedWalletContext();
   const [isOpen, onToggle] = useToggle(false);
@@ -248,7 +248,7 @@ const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
       loadable: Adapter[];
       notDetected: Adapter[];
     }>(
-      (acc, wallet) => {
+      (acc, wallet) => {        
         const adapterName = wallet.adapter.name;
 
         // Previously connected takes highest
@@ -354,5 +354,3 @@ const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) => {
     </Box>
   );
 };
-
-export default UnifiedWalletModal;

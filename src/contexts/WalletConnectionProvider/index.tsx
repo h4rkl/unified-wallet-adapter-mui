@@ -10,7 +10,6 @@ import {
 import { Cluster } from '@solana/web3.js';
 
 import { PreviouslyConnectedProvider } from './previouslyConnectedProvider';
-import HardcodedWalletStandardAdapter, { IHardcodedWalletStandardAdapter } from './HardcodedWalletStandardAdapter';
 import { AllLanguage } from '../TranslationProvider/i18n';
 import { Theme } from '@mui/system/createTheme';
 const noop = (error: WalletError, adapter?: Adapter) => {
@@ -34,7 +33,6 @@ export interface IUnifiedWalletConfig {
   metadata: IUnifiedWalletMetadata;
   env: Cluster;
   walletPrecedence?: WalletName[];
-  hardcodedWallets?: IHardcodedWalletStandardAdapter[];
   notificationCallback?: {
     onConnect: (props: IWalletNotification) => void;
     onConnecting: (props: IWalletNotification) => void;
@@ -84,7 +82,6 @@ const WalletConnectionProvider: FC<
         onWalletNotFound: createDefaultWalletNotFoundHandler(),
       }),
       ...passedWallets,
-      ...(config.hardcodedWallets || []).map((item) => new HardcodedWalletStandardAdapter(item)),
     ];
   }, []);
 

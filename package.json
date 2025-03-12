@@ -34,6 +34,8 @@
     "@reown/appkit-adapter-solana": ">=1.6.0",
     "@reown/appkit-wallet-button": ">=1.6.0",
     "@solana/spl-token": "*",
+    "@solana/wallet-adapter-base": "0.9.23",
+    "@solana/wallet-adapter-react": "0.15.35",
     "@solana/web3.js": ">=1.77.3",
     "decimal.js": ">=10.4.3",
     "react": ">=18"

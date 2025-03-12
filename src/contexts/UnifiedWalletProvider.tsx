@@ -9,7 +9,7 @@ import WalletConnectionProvider, { IUnifiedWalletConfig } from './WalletConnecti
 import { usePrevious } from 'react-use';
 
 import { shortenAddress } from '../misc/utils';
-import UnifiedWalletModal from '../components/UnifiedWalletModal';
+import { UnifiedWalletModal } from '../components/UnifiedWalletModal';
 import {
   UnifiedWalletValueContext,
   useUnifiedWallet,
@@ -185,15 +185,15 @@ const UnifiedWalletProvider = ({
   const theme = config.theme || createTheme();
 
   return (
-      <ThemeProvider theme={theme}>
-        <TranslationProvider lang={config.lang}>
-          <WalletConnectionProvider wallets={wallets} config={config}>
-            <UnifiedWalletValueProvider>
-              <UnifiedWalletContextProvider config={config}>{children}</UnifiedWalletContextProvider>
-            </UnifiedWalletValueProvider>
-          </WalletConnectionProvider>
-        </TranslationProvider>
-      </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <TranslationProvider lang={config.lang}>
+        <WalletConnectionProvider wallets={wallets} config={config}>
+          <UnifiedWalletValueProvider>
+            <UnifiedWalletContextProvider config={config}>{children}</UnifiedWalletContextProvider>
+          </UnifiedWalletValueProvider>
+        </WalletConnectionProvider>
+      </TranslationProvider>
+    </ThemeProvider>
   );
 };
 

@@ -1,13 +1,10 @@
+import React, { DetailedHTMLProps, FC, ImgHTMLAttributes, MouseEventHandler, useMemo } from 'react';
 import { Adapter } from '@solana/wallet-adapter-base';
-import React, { DetailedHTMLProps, FC, ImgHTMLAttributes, MouseEventHandler, useCallback, useMemo } from 'react';
-
-import UnknownIconSVG from '../icons/UnknownIconSVG';
-import { isMobile } from '../../misc/utils';
-import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
-import { useTranslation } from '../../contexts/TranslationProvider';
-
-// Material UI imports
 import { Box, Button, Typography } from '@mui/material';
+import { PhoneAndroid, AccountBalanceWallet } from '@mui/icons-material';
+import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
+import { isMobile } from '../../misc/utils';
+import { useTranslation } from '../../contexts/TranslationProvider';
 
 export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
   wallet: Adapter | null;
@@ -16,30 +13,26 @@ export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTM
 }
 
 export const WalletIcon: FC<WalletIconProps> = ({ wallet, width = 24, height = 24 }) => {
-  const [hasError, setHasError] = React.useState(false);
+  // Choose appropriate icon based on wallet name or use wallet icon if available
+  const WalletIconComponent = useMemo(() => {
+    if (!wallet) return AccountBalanceWallet;
+    if (wallet.name === SolanaMobileWalletAdapterWalletName) return PhoneAndroid;
+    return AccountBalanceWallet;
+  }, [wallet?.name]);
 
-  const onError = useCallback(() => setHasError(true), []);
-
-  if (wallet && wallet.icon && !hasError) {
-    return (
-      <Box sx={{ minWidth: width, minHeight: height, mr: 1.5, display: 'flex', alignItems: 'center' }}>
-        <img
-          width={width}
-          height={height}
-          src={wallet.icon}
+  return (
+    <Box sx={{ minWidth: width, minHeight: height, mr: 1.5, display: 'flex', alignItems: 'center' }}>
+      {wallet?.icon ? (
+        <img 
+          src={wallet.icon} 
           alt={`${wallet.name} icon`}
-          style={{ objectFit: 'contain' }}
-          onError={onError}
+          style={{ width: Math.max(width, height), height: Math.max(width, height) }}
         />
-      </Box>
-    );
-  } else {
-    return (
-      <Box sx={{ minWidth: width, minHeight: height, mr: 1.5, display: 'flex', alignItems: 'center' }}>
-        <UnknownIconSVG width={width} height={height} />
-      </Box>
-    );
-  }
+      ) : (
+        <WalletIconComponent sx={{ fontSize: Math.max(width, height) }} color="primary" />
+      )}
+    </Box>
+  );
 };
 
 export interface WalletListItemProps {

@@ -11,7 +11,7 @@ console.log('Resolved src/pages:', path.resolve(__dirname, 'src/pages'));
 
 export default {
   mode: 'production',
-  entry: './src/index.tsx',
+  entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'components.esm.js',
@@ -28,7 +28,22 @@ export default {
       '@src': path.resolve(__dirname, 'src/')
     }
   },
-  externals: [nodeExternals()],
+  externalsType: 'module',
+  externals: [
+    nodeExternals({
+      allowlist: [/^@src\//]
+    }),
+    {
+      react: 'react',
+      'react-dom': 'react-dom',
+      '@mui/material': '@mui/material',
+      '@mui/icons-material': '@mui/icons-material',
+      '@solana/wallet-adapter-base': '@solana/wallet-adapter-base',
+      '@solana/wallet-adapter-react': '@solana/wallet-adapter-react',
+      '@solana/web3.js': '@solana/web3.js',
+      '@solana-mobile/wallet-adapter-mobile': '@solana-mobile/wallet-adapter-mobile'
+    }
+  ],
   module: {
     rules: [
       {

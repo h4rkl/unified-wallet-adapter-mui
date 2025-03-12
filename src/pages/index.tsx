@@ -7,7 +7,6 @@ import { UnifiedWalletProvider, useUnifiedWallet } from '../contexts/UnifiedWall
 import { UnifiedWalletButton } from '../components/UnifiedWalletButton';
 import WalletNotification, { NotificationManager } from '../components/WalletNotification';
 import PreviewFunctionality from '../components/PreviewFunctionality';
-import Collapse from '../components/Collapse';
 
 const Index = () => {
   const [lang, setLang] = useState<AllLanguage>('en');
