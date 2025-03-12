@@ -21,22 +21,12 @@ export default {
   input: 'src/index.tsx',
   output: [
     {
-      // ES Modules: Modern browser imports
-
-      // Browser usage:
-      // <script type="module">
-      //   import { func } from 'my-lib';
-      //   func();
-      // </script>
-
-      // js/tsx file usage:
-      // import { func } from 'my-lib';
-      // func();
       file: pkg.module,
       format: 'es',
       sourcemap: true,
     },
   ],
+  external: ['react', 'react-dom', '@emotion/react', '@emotion/styled', '@mui/material'],
   plugins: [
     nodeExternals({
       exclude: [/^react-use/],

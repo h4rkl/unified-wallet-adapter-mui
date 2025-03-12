@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "jsx": "preserve",
@@ -15,6 +15,7 @@
     // Ensure that Babel can safely transpile files in the TypeScript project
     "isolatedModules": true,
     "jsxImportSource": "@emotion/react", // Add the css prop
+    "moduleDetection": "force",
     // ignore some typings check
     "noUnusedParameters": false,
     "noUnusedLocals": false,
@@ -24,7 +25,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
+    "noEmit": false,
     "incremental": true
   },
   "include": ["types", "lib/index.tsx", "src/**/*"],
