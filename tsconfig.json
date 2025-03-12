@@ -36,6 +36,7 @@
     "node_modules",
     "dist",
     "**/*.test.ts",
-    "**/*.test.tsx"
+    "**/*.test.tsx",
+    "src/pages/**/*"
   ]
 }

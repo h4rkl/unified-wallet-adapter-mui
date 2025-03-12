@@ -48,8 +48,8 @@ export default {
         loader: 'ts-loader',
         exclude: [
           /node_modules/,
-          /src[\/\\]pages[\/\\]/
-        ],
+          path.resolve(__dirname, 'src/pages')
+        ]
       }
     ]
   }
