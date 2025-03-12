@@ -1,4 +1,5 @@
-import { Box, Typography, Paper, Divider } from '@mui/material';
+import React from 'react';
+import { Box, Typography, Divider } from '@mui/material';
 import { IWalletProps } from "../contexts/UnifiedWalletProvider";
 
 const PreviewFunctionality = ({ title, walletProps }: { title: string, walletProps?: IWalletProps }) => {

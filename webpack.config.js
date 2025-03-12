@@ -6,9 +6,6 @@ import nodeExternals from 'webpack-node-externals';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-console.log('Resolved node_modules:', path.resolve(__dirname, 'node_modules'));
-console.log('Resolved src/pages:', path.resolve(__dirname, 'src/pages'));
-
 export default {
   mode: 'production',
   entry: './src/index.ts',
