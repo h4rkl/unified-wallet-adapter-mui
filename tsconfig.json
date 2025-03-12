@@ -1,33 +1,27 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "jsx": "preserve",
-    "target": "ESNext",
-    "module": "ESNext",
-    "strict": true,
-    "skipLibCheck": true,
-    // Ensure that .d.ts files are created by tsc, but not .js files
-    "declaration": true,
-    "declarationDir": "dist/types",
-    // Ensure that Babel can safely transpile files in the TypeScript project
-    "isolatedModules": true,
-    "jsxImportSource": "@emotion/react", // Add the css prop
-    "moduleDetection": "force",
-    // ignore some typings check
-    "noUnusedParameters": false,
-    "noUnusedLocals": false,
-    "noImplicitReturns": false,
-    "noImplicitAny": false,
-    "baseUrl": ".",
+    "target": "es2020",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": false,
-    "incremental": true
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "declaration": true,
+    "declarationDir": "dist/types",
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"]
+    }
   },
-  "include": ["types", "lib/index.tsx", "src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.test.tsx", "src/pages/**/*"]
 }

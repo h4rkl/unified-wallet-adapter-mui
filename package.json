@@ -13,9 +13,7 @@
   "scripts": {
     "type-check": "tsc --noEmit",
     "type-check:watch": "pnpm type-check -- --watch",
-    "build:types": "tsc --noEmit false --emitDeclarationOnly --outDir dist/types",
-    "build:js": "npx rollup -c",
-    "build-lib": "pnpm build:types && pnpm build:js",
+    "build-lib": "webpack --config webpack.config.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -52,9 +50,6 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@emotion/babel-preset-css-prop": "^11.12.0",
-    "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^25.0.3",
-    "@rollup/plugin-node-resolve": "^15.1.0",
     "@solana/spl-token": "0.1.8",
     "@solana/spl-token-registry": "~0.2.1105",
     "@solana/wallet-adapter-wallets": "0.19.32",
@@ -71,9 +66,12 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0",
-    "rollup": "^3.7.3",
-    "rollup-plugin-node-externals": "^6.1.1",
-    "typescript": "5.7.2"
+    "ts-loader": "^9.4.4",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typescript": "5.7.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-node-externals": "^3.0.0"
   },
   "resolutions": {
     "@solana/wallet-adapter-base": "0.9.23"
