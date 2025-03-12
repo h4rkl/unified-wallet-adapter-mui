@@ -26,15 +26,24 @@ export default {
       sourcemap: true,
     },
   ],
-  external: ['react', 'react-dom', '@emotion/react', '@emotion/styled', '@mui/material'],
+  external: ['react', 'react-dom', '@emotion/react', '@emotion/styled', '@mui/material', '@mui/icons-material'],
   plugins: [
     nodeExternals({
       exclude: [/^react-use/],
     }),
 
-    nodeResolve({ extensions: config.extensions }),
+    nodeResolve({ 
+      extensions: config.extensions,
+      exportConditions: ['node', 'import', 'default'],
+      moduleDirectories: ['node_modules'],
+      // Prevent directory imports issue with MUI
+      preferBuiltins: false
+    }),
 
-    commonjs(),
+    commonjs({
+      include: /node_modules/
+    }),
+    
     babel({
       extensions: config.extensions,
       include: ['src/**/*'],
