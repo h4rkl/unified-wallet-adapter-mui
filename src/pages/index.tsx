@@ -1,26 +1,26 @@
 import React, { useState, useMemo } from 'react';
-import { Box, Typography, Button, Container, Paper, Grid, Theme, ThemeProvider, createTheme } from '@mui/material';
+import { Box, Typography, Button, Container, Paper, Grid, ThemeProvider, createTheme, PaletteMode } from '@mui/material';
 import { Cluster } from '@solana/web3.js';
 
 import { AllLanguage, DEFAULT_LANGUAGE, LANGUAGE_LABELS, OTHER_LANGUAGES } from '../contexts/TranslationProvider/i18n';
-import { UnifiedWalletProvider, useUnifiedWallet } from '../contexts/UnifiedWalletProvider';
+import { UnifiedWalletProvider } from '../contexts/UnifiedWalletProvider';
+import { useUnifiedWallet } from '../contexts/UnifiedWalletContext';
 import { UnifiedWalletButton } from '../components/UnifiedWalletButton';
 import WalletNotification, { NotificationManager } from '../components/WalletNotification';
 import PreviewFunctionality from '../components/PreviewFunctionality';
 
 const Index = () => {
   const [lang, setLang] = useState<AllLanguage>('en');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [expanded, setExpanded] = useState(false);
-
-  const muiTheme = useMemo(
+  const [mode, setMode] = useState<PaletteMode>('light');
+  
+  const theme = useMemo(
     () =>
       createTheme({
         palette: {
-          mode: theme,
+          mode,
         },
       }),
-    [theme],
+    [mode],
   );
 
   // Configuration for the wallet provider
@@ -38,14 +38,13 @@ const Index = () => {
       walletlistExplanation: {
         href: 'https://station.jup.ag/docs/additional-topics/wallet-list',
       },
-      theme: muiTheme,
       lang,
     }),
-    [muiTheme, lang],
+    [lang],
   );
 
   return (
-    <ThemeProvider theme={muiTheme}>
+    <ThemeProvider theme={theme}>
       <UnifiedWalletProvider wallets={[]} config={walletConfig}>
         <Box
           sx={{
@@ -125,8 +124,8 @@ const Index = () => {
                         {(['light', 'dark'] as const).map((t) => (
                           <Button
                             key={t}
-                            variant={theme === t ? 'contained' : 'outlined'}
-                            onClick={() => setTheme(t)}
+                            variant={mode === t ? 'contained' : 'outlined'}
+                            onClick={() => setMode(t)}
                             sx={{
                               textTransform: 'capitalize',
                               minWidth: '100px',

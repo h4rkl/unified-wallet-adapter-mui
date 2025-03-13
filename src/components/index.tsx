@@ -1,2 +1,2 @@
-export { UnifiedWalletButton } from './UnifiedWalletButton';
+export * from './UnifiedWalletButton';
 export * from './UnifiedWalletModal';

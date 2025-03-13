@@ -1,17 +1,24 @@
 import React, { ReactNode, useCallback } from 'react';
 import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
 import { Button, Box, Typography } from '@mui/material';
+import type { ComponentType } from 'react';
 
 import { CurrentUserBadge } from './CurrentUserBadge';
-import { useUnifiedWalletContext, useUnifiedWallet } from '../contexts/UnifiedWalletProvider';
+import { useUnifiedWalletContext, useUnifiedWallet } from '../contexts/UnifiedWalletContext';
 import { MWA_NOT_FOUND_ERROR } from '../contexts/UnifiedWalletContext';
 import { useTranslation } from '../contexts/TranslationProvider';
 
-export const UnifiedWalletButton: React.FC<{
+interface UnifiedWalletButtonProps {
   overrideContent?: ReactNode;
   buttonClassName?: string;
   currentUserClassName?: string;
-}> = ({ overrideContent, buttonClassName, currentUserClassName }) => {
+}
+
+const UnifiedWalletButtonComponent: ComponentType<UnifiedWalletButtonProps> = ({ 
+  overrideContent, 
+  buttonClassName, 
+  currentUserClassName 
+}) => {
   const { setShowModal } = useUnifiedWalletContext();
   const { disconnect, connect, connecting, wallet } = useUnifiedWallet();
   const { t } = useTranslation();
@@ -70,3 +77,5 @@ export const UnifiedWalletButton: React.FC<{
     </>
   );
 };
+
+export const UnifiedWalletButton = UnifiedWalletButtonComponent as ComponentType<UnifiedWalletButtonProps>;

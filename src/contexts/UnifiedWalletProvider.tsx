@@ -10,21 +10,16 @@ import { usePrevious } from 'react-use';
 
 import { shortenAddress } from '../misc/utils';
 import { UnifiedWalletModal } from '../components/UnifiedWalletModal';
-import {
-  UnifiedWalletValueContext,
-  useUnifiedWallet,
-  UnifiedWalletContext,
-  useUnifiedWalletContext,
-} from './UnifiedWalletContext';
+import { UnifiedWalletValueContext, useUnifiedWallet, UnifiedWalletContext } from './UnifiedWalletContext';
 import { TranslationProvider } from './TranslationProvider';
-import { ThemeProvider, createTheme, Dialog } from '@mui/material';
+import { Dialog } from '@mui/material';
 
 export type IWalletProps = Omit<
   WalletContextState,
   'autoConnect' | 'disconnecting' | 'sendTransaction' | 'signTransaction' | 'signAllTransactions' | 'signMessage'
 >;
 
-const UnifiedWalletValueProvider = ({ children }: { children: React.ReactNode }) => {
+export const UnifiedWalletValueProvider = ({ children }: { children: React.ReactNode }) => {
   const defaultWalletContext = useWallet();
 
   const value = useMemo(() => {
@@ -43,7 +38,7 @@ const UnifiedWalletValueProvider = ({ children }: { children: React.ReactNode })
   return <UnifiedWalletValueContext.Provider value={value}>{children}</UnifiedWalletValueContext.Provider>;
 };
 
-const UnifiedWalletContextProvider: React.FC<
+export const UnifiedWalletContextProvider: React.FC<
   {
     config: IUnifiedWalletConfig;
   } & PropsWithChildren
@@ -173,7 +168,7 @@ const UnifiedWalletContextProvider: React.FC<
   );
 };
 
-const UnifiedWalletProvider = ({
+export const UnifiedWalletProvider = ({
   wallets,
   config,
   children,
@@ -182,19 +177,13 @@ const UnifiedWalletProvider = ({
   config: IUnifiedWalletConfig;
   children: React.ReactNode;
 }) => {
-  const theme = config.theme || createTheme();
-
   return (
-    <ThemeProvider theme={theme}>
-      <TranslationProvider lang={config.lang}>
-        <WalletConnectionProvider wallets={wallets} config={config}>
-          <UnifiedWalletValueProvider>
-            <UnifiedWalletContextProvider config={config}>{children}</UnifiedWalletContextProvider>
-          </UnifiedWalletValueProvider>
-        </WalletConnectionProvider>
-      </TranslationProvider>
-    </ThemeProvider>
+    <TranslationProvider lang={config.lang}>
+      <WalletConnectionProvider wallets={wallets} config={config}>
+        <UnifiedWalletValueProvider>
+          <UnifiedWalletContextProvider config={config}>{children}</UnifiedWalletContextProvider>
+        </UnifiedWalletValueProvider>
+      </WalletConnectionProvider>
+    </TranslationProvider>
   );
 };
-
-export { UnifiedWalletProvider, useUnifiedWallet, useUnifiedWalletContext };
