@@ -31,7 +31,6 @@ const externalPackages = {
   react: 'react',
   'react-dom': 'react-dom',
   '@mui/material': '@mui/material',
-  '@mui/icons-material': '@mui/icons-material',
   '@solana/wallet-adapter-base': '@solana/wallet-adapter-base',
   '@solana/wallet-adapter-react': '@solana/wallet-adapter-react',
   '@solana/web3.js': '@solana/web3.js',
