@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Box, Typography, Button, Container, Paper, Grid, ThemeProvider, createTheme, PaletteMode } from '@mui/material';
+import { Box, Typography, Button, Container, Paper, Grid, ThemeProvider, createTheme } from '@mui/material';
 import { Cluster } from '@solana/web3.js';
 
 import { AllLanguage, DEFAULT_LANGUAGE, LANGUAGE_LABELS, OTHER_LANGUAGES } from '../contexts/TranslationProvider/i18n';
@@ -11,16 +11,16 @@ import PreviewFunctionality from '../components/PreviewFunctionality';
 
 const Index = () => {
   const [lang, setLang] = useState<AllLanguage>('en');
-  const [mode, setMode] = useState<PaletteMode>('light');
-  
-  const theme = useMemo(
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  const muiTheme = useMemo(
     () =>
       createTheme({
         palette: {
-          mode,
+          mode: theme,
         },
       }),
-    [mode],
+    [theme],
   );
 
   // Configuration for the wallet provider
@@ -38,13 +38,14 @@ const Index = () => {
       walletlistExplanation: {
         href: 'https://station.jup.ag/docs/additional-topics/wallet-list',
       },
+      theme: muiTheme,
       lang,
     }),
-    [lang],
+    [muiTheme, lang],
   );
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={muiTheme}>
       <UnifiedWalletProvider wallets={[]} config={walletConfig}>
         <Box
           sx={{
@@ -124,8 +125,8 @@ const Index = () => {
                         {(['light', 'dark'] as const).map((t) => (
                           <Button
                             key={t}
-                            variant={mode === t ? 'contained' : 'outlined'}
-                            onClick={() => setMode(t)}
+                            variant={theme === t ? 'contained' : 'outlined'}
+                            onClick={() => setTheme(t)}
                             sx={{
                               textTransform: 'capitalize',
                               minWidth: '100px',

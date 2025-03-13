@@ -10,9 +10,13 @@ import { usePrevious } from 'react-use';
 
 import { shortenAddress } from '../misc/utils';
 import { UnifiedWalletModal } from '../components/UnifiedWalletModal';
-import { UnifiedWalletValueContext, useUnifiedWallet, UnifiedWalletContext } from './UnifiedWalletContext';
+import {
+  UnifiedWalletValueContext,
+  useUnifiedWallet,
+  UnifiedWalletContext,
+} from './UnifiedWalletContext';
 import { TranslationProvider } from './TranslationProvider';
-import { Dialog } from '@mui/material';
+import { ThemeProvider, createTheme, Dialog } from '@mui/material';
 
 export type IWalletProps = Omit<
   WalletContextState,
@@ -177,13 +181,17 @@ export const UnifiedWalletProvider = ({
   config: IUnifiedWalletConfig;
   children: React.ReactNode;
 }) => {
+  const theme = config.theme || createTheme();
+
   return (
-    <TranslationProvider lang={config.lang}>
-      <WalletConnectionProvider wallets={wallets} config={config}>
-        <UnifiedWalletValueProvider>
-          <UnifiedWalletContextProvider config={config}>{children}</UnifiedWalletContextProvider>
-        </UnifiedWalletValueProvider>
-      </WalletConnectionProvider>
-    </TranslationProvider>
+    <ThemeProvider theme={theme}>
+      <TranslationProvider lang={config.lang}>
+        <WalletConnectionProvider wallets={wallets} config={config}>
+          <UnifiedWalletValueProvider>
+            <UnifiedWalletContextProvider config={config}>{children}</UnifiedWalletContextProvider>
+          </UnifiedWalletValueProvider>
+        </WalletConnectionProvider>
+      </TranslationProvider>
+    </ThemeProvider>
   );
 };

@@ -11,6 +11,7 @@ import { Cluster } from '@solana/web3.js';
 
 import { PreviouslyConnectedProvider } from './previouslyConnectedProvider';
 import { AllLanguage } from '../TranslationProvider/i18n';
+import { Theme } from '@mui/system/createTheme';
 
 const noop = (error: WalletError, adapter?: Adapter) => {
   console.log({ error, adapter });
@@ -44,6 +45,7 @@ export interface IUnifiedWalletConfig {
   walletlistExplanation?: {
     href: string;
   };
+  theme: Theme;
   lang?: AllLanguage;
   walletAttachments?: Record<string, { attachment: ReactNode }>;
   walletModalAttachments?: {
