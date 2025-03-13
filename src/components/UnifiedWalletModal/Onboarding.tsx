@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRef, useState } from 'react';
 import { HARDCODED_WALLET_STANDARDS } from '../../misc/constants';
-import { OpenInNew } from '@mui/icons-material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useTranslation } from '../../contexts/TranslationProvider';
 
 // Material UI imports
@@ -92,7 +92,7 @@ export const OnboardingGetWallets: React.FC<{ flow: IOnboardingFlow; setFlow: (f
               padding: '2px',
             }}
           >
-            <OpenInNew sx={{ width: 16, height: 16 }} />
+            <OpenInNewIcon sx={{ width: 16, height: 16 }} />
           </Box>
           <span>{t(`More wallets`)}</span>
         </Button>

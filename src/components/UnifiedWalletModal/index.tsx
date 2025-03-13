@@ -1,8 +1,7 @@
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
-import { Close, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import NotInstalled from './NotInstalled';
 import { Adapter, WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
-import { Box, Typography, Button, IconButton, Divider, Paper, Grid } from '@mui/material';
+import { Box, Typography, Button, IconButton, Divider, GridLegacy as Grid } from '@mui/material';
 import { OnboardingFlow } from './Onboarding';
 import { WalletListItem } from './WalletListItem';
 import { useOutsideClick } from '../../misc/utils';
@@ -10,6 +9,9 @@ import { usePreviouslyConnected } from '../../contexts/WalletConnectionProvider/
 import { useToggle } from 'react-use';
 import { useTranslation } from '../../contexts/TranslationProvider';
 import { useUnifiedWallet, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
+import CloseIcon from '@mui/icons-material/Close';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useTranslation();
@@ -36,7 +38,7 @@ const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       </Box>
 
       <IconButton size="small" onClick={onClose} sx={{ position: 'absolute', top: 16, right: 16 }}>
-        <Close sx={{ width: 16, height: 16, fill: (theme) => theme.palette.text.primary }} />
+        <CloseIcon sx={{ width: 16, height: 16, fill: (theme) => theme.palette.text.primary }} />
       </IconButton>
     </Box>
   );
@@ -170,9 +172,9 @@ const ListOfWallets: React.FC<{
                 {t(`More wallets`)}
               </Typography>
               {isOpen ? (
-                <KeyboardArrowUp sx={{ fill: (theme) => theme.palette.text.primary }} />
+                <KeyboardArrowUpIcon sx={{ fill: (theme) => theme.palette.text.primary }} />
               ) : (
-                <KeyboardArrowDown sx={{ fill: (theme) => theme.palette.text.primary }} />
+                <KeyboardArrowDownIcon sx={{ fill: (theme) => theme.palette.text.primary }} />
               )}
             </Button>
 

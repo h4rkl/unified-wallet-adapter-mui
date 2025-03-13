@@ -1,7 +1,8 @@
 import React, { DetailedHTMLProps, FC, ImgHTMLAttributes, MouseEventHandler, useMemo } from 'react';
 import { Adapter } from '@solana/wallet-adapter-base';
 import { Box, Button, Typography } from '@mui/material';
-import { PhoneAndroid, AccountBalanceWallet } from '@mui/icons-material';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
 import { isMobile } from '../../misc/utils';
 import { useTranslation } from '../../contexts/TranslationProvider';
@@ -15,9 +16,9 @@ export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTM
 export const WalletIcon: FC<WalletIconProps> = ({ wallet, width = 24, height = 24 }) => {
   // Choose appropriate icon based on wallet name or use wallet icon if available
   const WalletIconComponent = useMemo(() => {
-    if (!wallet) return AccountBalanceWallet;
-    if (wallet.name === SolanaMobileWalletAdapterWalletName) return PhoneAndroid;
-    return AccountBalanceWallet;
+    if (!wallet) return AccountBalanceWalletIcon;
+    if (wallet.name === SolanaMobileWalletAdapterWalletName) return PhoneAndroidIcon;
+    return AccountBalanceWalletIcon;
   }, [wallet?.name]);
 
   return (
