@@ -24,42 +24,90 @@ NPM: https://www.npmjs.com/package/@harkl/unified-wallet-adapter-mui
 
 ## Getting Started
 
-- `npm i @harkl/unified-wallet-adapter-mui`
-- Wrap your app with `<UnifiedWalletProvider />` and pass in as little to as many wallets you would like to support.
-- Below example is `ExampleBaseOnly.tsx`
-
-```tsx
-const ExampleBaseOnly = () => {
-  return (
-    <UnifiedWalletProvider
-      wallets={[]}
-      theme={<your-mui-theme>}
-      config={{
-        autoConnect: false,
-        env: 'mainnet-beta',
-        metadata: {
-          name: 'UnifiedWallet',
-          description: 'UnifiedWallet',
-          url: 'https://jup.ag',
-          iconUrls: ['https://jup.ag/favicon.ico'],
-        },
-        notificationCallback: WalletNotification,
-        walletlistExplanation: {
-          href: 'https://station.jup.ag/docs/additional-topics/wallet-list',
-        },
-      }}
-    >
-      <UnifiedWalletButton />
-    </UnifiedWalletProvider>
-  );
-};
-
-export default ExampleBaseOnly;
+1. Install the package:
+```bash
+npm i @harkl/unified-wallet-adapter-mui
 ```
 
-## Material UI Integration
+2. Set up your wallet context:
 
-This package is built with Material UI v6 components to seamlessly integrate with your Material UI applications. All components use the MUI styling system and theme provider for consistent styling across your application.
+First, create a wallet context provider that wraps your application:
+
+```tsx
+import { ConnectionProvider } from "@solana/wallet-adapter-react";
+import { UnifiedWalletProvider } from "@harkl/unified-wallet-adapter-mui";
+import theme from "./theme";
+
+export const WalletContext = ({ children }) => {
+  const endpoint = process.env.NEXT_PUBLIC_SOLANA_NETWORK;
+
+  return (
+    <ConnectionProvider endpoint={endpoint}>
+      <UnifiedWalletProvider
+        wallets={[]}
+        config={{
+          autoConnect: true,
+          env: process.env.NODE_ENV === "production" ? "mainnet-beta" : "devnet",
+          metadata: {
+            name: "Your App Name",
+            description: "Your App Description",
+            url: "https://yourapp.com",
+            iconUrls: ["/favicon.png"],
+          },
+          theme,
+          lang: "en",
+        }}
+      >
+        {children}
+      </UnifiedWalletProvider>
+    </ConnectionProvider>
+  );
+};
+```
+
+3. Wrap your app with the providers:
+
+```tsx
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { WalletContext } from "./WalletContext";
+
+function App({ Component, pageProps }) {
+  return (
+    <WalletContext>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </WalletContext>
+  );
+}
+```
+
+4. Use the wallet components in your app:
+
+```tsx
+import { UnifiedWalletButton } from "@harkl/unified-wallet-adapter-mui";
+
+const YourComponent = () => {
+  return (
+    <div>
+      <UnifiedWalletButton />
+    </div>
+  );
+};
+```
+
+## Configuration Options
+
+The `UnifiedWalletProvider` accepts the following configuration:
+
+- `wallets`: Array of wallet adapters you want to support
+- `config`:
+  - `autoConnect`: Boolean to enable automatic wallet connection
+  - `env`: Solana network environment ('mainnet-beta' or 'devnet')
+  - `metadata`: Your application metadata
+  - `theme`: MUI theme object
+  - `lang`: Language setting for i18n support
 
 ## Components
 
