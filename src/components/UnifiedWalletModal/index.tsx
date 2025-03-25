@@ -137,14 +137,14 @@ const ListOfWallets: React.FC<{
         }}
       >
         {list.highlightedBy !== 'Onboarding' && (
-          <Typography variant="caption" fontWeight="600" sx={{ mt: 6 }}>
+          <Typography variant="caption" fontWeight="600" sx={{ mt: 3 }}>
             {list.highlightedBy === 'PreviouslyConnected' ? t(`Recently used`) : null}
             {list.highlightedBy === 'TopAndRecommended' ? t(`Recommended wallets`) : null}
           </Typography>
         )}
 
         <Box>
-          <Grid container spacing={2} sx={{ mt: 4, pb: 4 }} translate="no">
+          <Grid container spacing={2} sx={{ mt: 2, pb: 2 }} translate="no">
             {list.highlight.map((adapter, index) => (
               <Grid item xs={6} key={index}>
                 <WalletListItem handleClick={(e) => onClickWallet(e, adapter)} wallet={adapter} />
@@ -159,7 +159,7 @@ const ListOfWallets: React.FC<{
               variant="text"
               fullWidth
               sx={{
-                mt: 5,
+                mt: 3,
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',

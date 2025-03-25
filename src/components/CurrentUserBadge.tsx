@@ -35,7 +35,7 @@ export const CurrentUserBadge: React.FC<{ onClick?: () => void; className?: stri
         <img alt="Wallet logo" width={16} height={16} src={wallet?.adapter?.icon} />
       </Box>
 
-      <Typography variant="caption">
+      <Typography variant="caption" ml={0.5}>
         {shortenAddress(`${publicKey}`)}
       </Typography>
     </Button>
