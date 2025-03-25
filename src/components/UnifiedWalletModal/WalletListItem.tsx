@@ -1,11 +1,11 @@
 import React, { DetailedHTMLProps, FC, ImgHTMLAttributes, MouseEventHandler, useMemo } from 'react';
 import { Adapter } from '@solana/wallet-adapter-base';
 import { Box, Button, Typography } from '@mui/material';
-import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import UnknownIconSVG from '../../icons/UnknownIconSVG';
 import { SolanaMobileWalletAdapterWalletName } from '@solana-mobile/wallet-adapter-mobile';
 import { isMobile } from '../../misc/utils';
 import { useTranslation } from '../../contexts/TranslationProvider';
+import AccWalletIcon from '../../icons/WalletIcon';
 
 export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
   wallet: Adapter | null;
@@ -14,11 +14,13 @@ export interface WalletIconProps extends DetailedHTMLProps<ImgHTMLAttributes<HTM
 }
 
 export const WalletIcon: FC<WalletIconProps> = ({ wallet, width = 24, height = 24 }) => {
+  const { t } = useTranslation();
+
   // Choose appropriate icon based on wallet name or use wallet icon if available
   const WalletIconComponent = useMemo(() => {
-    if (!wallet) return AccountBalanceWalletIcon;
-    if (wallet.name === SolanaMobileWalletAdapterWalletName) return PhoneAndroidIcon;
-    return AccountBalanceWalletIcon;
+    if (!wallet) return UnknownIconSVG;
+    if (wallet.name === SolanaMobileWalletAdapterWalletName) return t(`Mobile`);
+    return AccWalletIcon;
   }, [wallet?.name]);
 
   return (
@@ -30,7 +32,7 @@ export const WalletIcon: FC<WalletIconProps> = ({ wallet, width = 24, height = 2
           style={{ width: Math.max(width, height), height: Math.max(width, height) }}
         />
       ) : (
-        <WalletIconComponent sx={{ fontSize: Math.max(width, height) }} color="primary" />
+        <WalletIconComponent />
       )}
     </Box>
   );

@@ -30,6 +30,7 @@ const baseConfig = {
 const externalPackages = {
   react: 'react',
   'react-dom': 'react-dom',
+  'react-use': 'react-use',
   '@mui/material': '@mui/material',
   '@solana/wallet-adapter-base': '@solana/wallet-adapter-base',
   '@solana/wallet-adapter-react': '@solana/wallet-adapter-react',

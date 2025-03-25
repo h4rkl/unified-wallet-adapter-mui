@@ -1,7 +1,7 @@
 import { Adapter } from '@solana/wallet-adapter-base';
 import React from 'react';
 import { useTranslation } from '../../contexts/TranslationProvider';
-import LaunchIcon from '@mui/icons-material/Launch';
+import ExternalIcon from '../../icons/ExternalIcon';
 
 // Material UI imports
 import { Box, Typography, Button, Stack, Divider } from '@mui/material';
@@ -58,7 +58,7 @@ const NotInstalled: React.FC<{ adapter: Adapter; onClose: () => void; onGoOnboar
           <span>
             {t(`Install`)} {adapter.name}
           </span>
-          <LaunchIcon fontSize="small" />
+          <ExternalIcon />
         </a>
 
         <Box

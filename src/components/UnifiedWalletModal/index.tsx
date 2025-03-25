@@ -9,9 +9,9 @@ import { usePreviouslyConnected } from '../../contexts/WalletConnectionProvider/
 import { useToggle } from 'react-use';
 import { useTranslation } from '../../contexts/TranslationProvider';
 import { useUnifiedWallet, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
-import CloseIcon from '@mui/icons-material/Close';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import CloseIcon from '../../icons/CloseIcon';
+import ChevronUpIcon from '../../icons/ChevronUpIcon';
+import ChevronDownIcon from '../../icons/ChevronDownIcon';
 
 const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useTranslation();
@@ -38,7 +38,7 @@ const Header: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       </Box>
 
       <IconButton size="small" onClick={onClose} sx={{ position: 'absolute', top: 16, right: 16 }}>
-        <CloseIcon sx={{ width: 16, height: 16, fill: (theme) => theme.palette.text.primary }} />
+        <CloseIcon width={12} height={12} />
       </IconButton>
     </Box>
   );
@@ -172,9 +172,9 @@ const ListOfWallets: React.FC<{
                 {t(`More wallets`)}
               </Typography>
               {isOpen ? (
-                <KeyboardArrowUpIcon sx={{ fill: (theme) => theme.palette.text.primary }} />
+                <ChevronUpIcon />
               ) : (
-                <KeyboardArrowDownIcon sx={{ fill: (theme) => theme.palette.text.primary }} />
+                <ChevronDownIcon />
               )}
             </Button>
 
@@ -250,7 +250,7 @@ export const UnifiedWalletModal: React.FC<IUnifiedWalletModal> = ({ onClose }) =
       loadable: Adapter[];
       notDetected: Adapter[];
     }>(
-      (acc, wallet) => {        
+      (acc, wallet) => {
         const adapterName = wallet.adapter.name;
 
         // Previously connected takes highest
