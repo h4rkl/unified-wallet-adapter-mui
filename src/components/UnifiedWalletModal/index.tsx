@@ -6,7 +6,7 @@ import { OnboardingFlow } from './Onboarding';
 import { WalletListItem } from './WalletListItem';
 import { useOutsideClick } from '../../misc/utils';
 import { usePreviouslyConnected } from '../../contexts/WalletConnectionProvider/previouslyConnectedProvider';
-import { useToggle } from 'react-use';
+import { useToggle } from '../../hooks';
 import { useTranslation } from '../../contexts/TranslationProvider';
 import { useUnifiedWallet, useUnifiedWalletContext } from '../../contexts/UnifiedWalletContext';
 import CloseIcon from '../../icons/CloseIcon';

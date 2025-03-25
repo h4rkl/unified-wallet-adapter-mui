@@ -49,8 +49,7 @@
   "dependencies": {
     "@solana-mobile/wallet-adapter-mobile": "^2.0.0",
     "@solana/wallet-adapter-base": "0.9.23",
-    "@solana/wallet-adapter-react": "0.15.35",
-    "react-use": ">=17.2.4"
+    "@solana/wallet-adapter-react": "0.15.35"
   },
   "devDependencies": {
     "@emotion/babel-preset-css-prop": "^11.12.0",

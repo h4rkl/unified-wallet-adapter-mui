@@ -6,7 +6,7 @@ import { PublicKey } from '@solana/web3.js';
 
 import { Adapter, WalletReadyState } from '@solana/wallet-adapter-base';
 import WalletConnectionProvider, { IUnifiedWalletConfig } from './WalletConnectionProvider';
-import { usePrevious } from 'react-use';
+import { usePrevious } from '../hooks';
 
 import { shortenAddress } from '../misc/utils';
 import { UnifiedWalletModal } from '../components/UnifiedWalletModal';
