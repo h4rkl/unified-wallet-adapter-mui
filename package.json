@@ -6,6 +6,10 @@
   "module": "dist/components.esm.js",
   "types": "dist/index.d.ts",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/h4rkl/unified-wallet-adapter-mui"
+  },
   "exports": {
     ".": {
       "import": "./dist/components.esm.js",
