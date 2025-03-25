@@ -2,13 +2,13 @@
 
 ![Demo GIF](https://github.com/h4rkl/unified-wallet-adapter-mui/blob/master/public/mui-jup.gif?raw=true)
 
-Unified Wallet Kit MUI is a Material UI (v7 beta) implementation of `@jup-ag/wallet-adapter` with MUI styles over tailwind.
+Unified Wallet Kit MUI is a Material UI (v6) implementation of `@jup-ag/wallet-adapter` with MUI styles over tailwind.
 
 NPM: https://www.npmjs.com/package/@harkl/unified-wallet-adapter-mui
 
 ## Requirements
 
-- Material UI v7 beta (necessary for fixed esm modules)
+- Material UI v6 (necessary for fixed esm modules)
 - React 18+
 
 ## Motives
@@ -19,7 +19,7 @@ NPM: https://www.npmjs.com/package/@harkl/unified-wallet-adapter-mui
 
 ## Core features
 
-- [x] Fully integrated with Material UI v7 beta components
+- [x] Fully integrated with Material UI v6 components
 - [x] Built-in Wallet Standard, Mobile Wallet Adapter support
 - [x] Abstracted wallet adapter, with a BYOW (Bring your own wallets) approach
 - [x] Mobile responsive design
@@ -31,7 +31,7 @@ NPM: https://www.npmjs.com/package/@harkl/unified-wallet-adapter-mui
 
 1. Install the package and required dependencies:
 ```bash
-npm i @harkl/unified-wallet-adapter-mui @mui/material@7.0.0-beta.3 @emotion/react @emotion/styled
+npm i @harkl/unified-wallet-adapter-mui @mui/material@6 @emotion/react @emotion/styled
 ```
 
 2. Set up your wallet context:
