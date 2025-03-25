@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Box, Typography, Button, Container, Paper, GridLegacy as Grid, ThemeProvider, createTheme } from '@mui/material';
+import { Box, Typography, Button, Container, Paper, Grid, ThemeProvider, createTheme } from '@mui/material';
 import { Cluster } from '@solana/web3.js';
 
 import { AllLanguage, DEFAULT_LANGUAGE, LANGUAGE_LABELS, OTHER_LANGUAGES } from '../contexts/TranslationProvider/i18n';

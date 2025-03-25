@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import NotInstalled from './NotInstalled';
 import { Adapter, WalletName, WalletReadyState } from '@solana/wallet-adapter-base';
-import { Box, Typography, Button, IconButton, Divider, GridLegacy as Grid } from '@mui/material';
+import { Box, Typography, Button, IconButton, Divider, Grid } from '@mui/material';
 import { OnboardingFlow } from './Onboarding';
 import { WalletListItem } from './WalletListItem';
 import { useOutsideClick } from '../../misc/utils';
